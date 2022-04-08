@@ -15,10 +15,10 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import BookImage from "./BookImage";
-import ExtraInfoCard from "./Cards/ExtraInfoCard";
 import { FiBook, FiBookOpen, FiInfo, Fi } from "react-icons/fi";
-import {AiFillInfoCircle, AiFillFileText} from "react-icons/ai"
-import {BsBookFill} from "react-icons/bs"
+import { AiFillInfoCircle, AiFillFileText } from "react-icons/ai";
+import { BsBookFill } from "react-icons/bs";
+import Link from "next/link"
 const BookInfo = ({ details }) => {
   return (
     <>
@@ -85,9 +85,9 @@ const BookInfo = ({ details }) => {
             <Box width={"300px"} mt="1%">
               <HStack>
                 <Avatar
-                bg={"#805ad5"}
-                color={"white"}
-                size={"sm"}
+                  bg={"#805ad5"}
+                  color={"white"}
+                  size={"sm"}
                   name={
                     details.volumeInfo.authors != undefined
                       ? details.volumeInfo.authors[0]
@@ -134,18 +134,18 @@ const BookInfo = ({ details }) => {
           >
             <Box boxShadow={"md"} rounded={"lg"}>
               <Box p={"5"}>
-              <HStack color={"#805ad5"}>
-              <Icon
-                mr="1"
-                fontSize={"20"}
-                _groupHover={{ color: "black" }}
-                as={BsBookFill}
-              ></Icon>{" "}
-               <Text fontWeight={"bold"} fontSize={"1.2rem"} mb="10px">
-                  More Details
-                </Text>
-            </HStack>
-               
+                <HStack color={"#805ad5"}>
+                  <Icon
+                    mr="1"
+                    fontSize={"20"}
+                    _groupHover={{ color: "black" }}
+                    as={BsBookFill}
+                  ></Icon>{" "}
+                  <Text fontWeight={"bold"} fontSize={"1.2rem"} mb="10px">
+                    More Details
+                  </Text>
+                </HStack>
+
                 <SimpleGrid columns={{ base: 3, lg: 3, md: 2, sm: 2 }}>
                   <Box p={"3"}>
                     <Text fontSize={"1rem"} fontWeight={"bold"}>
@@ -183,18 +183,18 @@ const BookInfo = ({ details }) => {
             </Box>
             <Box boxShadow={"md"} rounded={"lg"} bg={"white"}>
               <Box p={"5"}>
-              <HStack color={"#805ad5"}>
-              <Icon
-                mr="1"
-                fontSize={"20"}
-                _groupHover={{ color: "black" }}
-                as={AiFillFileText}
-              ></Icon>{" "}
-                <Text fontWeight={"bold"} fontSize={"1.2rem"}>
-                  Supplementary Details
-                </Text>
-            </HStack>
-               
+                <HStack color={"#805ad5"}>
+                  <Icon
+                    mr="1"
+                    fontSize={"20"}
+                    _groupHover={{ color: "black" }}
+                    as={AiFillFileText}
+                  ></Icon>{" "}
+                  <Text fontWeight={"bold"} fontSize={"1.2rem"}>
+                    Supplementary Details
+                  </Text>
+                </HStack>
+
                 <SimpleGrid columns={{ base: 3, lg: 3, md: 2, sm: 2 }}>
                   <Box p={"3"}>
                     <Text fontSize={"1rem"} fontWeight={"bold"}>
@@ -221,15 +221,15 @@ const BookInfo = ({ details }) => {
                       Format
                     </Text>
                     <Text fontSize={"md"} color={"gray"}>
-                      {details.volumeInfo.dimensions.height != undefined
+                      {details.volumeInfo.dimensions != undefined
                         ? details.volumeInfo.dimensions.height
                         : "N/A"}{" "}
                       x{" "}
-                      {details.volumeInfo.dimensions.width != undefined
+                      {details.volumeInfo.dimensions != undefined
                         ? details.volumeInfo.dimensions.width
                         : "N/A"}{" "}
                       x{" "}
-                      {details.volumeInfo.dimensions.thickness != undefined
+                      {details.volumeInfo.dimensions != undefined
                         ? details.volumeInfo.dimensions.thickness
                         : "N/A"}
                     </Text>
@@ -239,39 +239,44 @@ const BookInfo = ({ details }) => {
             </Box>
           </SimpleGrid>
           <Box mt="3%">
-            <Button
-              colorScheme={"purple"}
-              shadow="lg"
-              height="65px"
-              width={{base:"200px", lg:"200px", md:"100%", sm:"100%"}}
-              size="lg"
-              mb={{base:"0px", lg:"0px", md:"5px", sm:"5px"}}
-              mr={{base:"2px", lg:"2px", md:"0px", sm:"0px"}}
-            >
-              <Icon
-                mr="2"
-                fontSize={"20"}
-                _groupHover={{ color: "black" }}
-                as={FiBook}
-              ></Icon>
-              Google Books
-            </Button>
-            <Button
-              colorScheme={"purple"}
-              shadow="lg"
-              height="65px"
-              width={{base:"200px", lg:"200px", md:"100%", sm:"100%"}}
-              size="lg"
-              variant={"outline"}
-            >
-              <Icon
-                mr="2"
-                fontSize={"20"}
-                _groupHover={{ color: "black" }}
-                as={FiBookOpen}
-              ></Icon>
-              Preview
-            </Button>
+            <Link href={details.volumeInfo.previewLink} passHref>
+              <Button
+                colorScheme={"purple"}
+                shadow="lg"
+                height="65px"
+                width={{ base: "200px", lg: "200px", md: "100%", sm: "100%" }}
+                size="lg"
+                mb={{ base: "0px", lg: "0px", md: "5px", sm: "5px" }}
+                mr={{ base: "10px", lg: "10px", md: "0px", sm: "0px" }}
+              >
+                <Icon
+                  mr="2"
+                  fontSize={"20"}
+                  _groupHover={{ color: "black" }}
+                  as={FiBook}
+                ></Icon>
+                Google Books
+              </Button>
+            </Link>
+
+            <Link href={details.volumeInfo.canonicalVolumeLink} passHref>
+              <Button
+                colorScheme={"purple"}
+                shadow="lg"
+                height="65px"
+                width={{ base: "200px", lg: "200px", md: "100%", sm: "100%" }}
+                size="lg"
+                variant={"outline"}
+              >
+                <Icon
+                  mr="2"
+                  fontSize={"20"}
+                  _groupHover={{ color: "black" }}
+                  as={FiBookOpen}
+                ></Icon>
+                Preview
+              </Button>
+            </Link>
           </Box>
         </GridItem>
       </Grid>

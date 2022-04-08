@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   IconButton,
   Avatar,
@@ -21,6 +21,8 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  FormControl,
+  Input,
 } from "@chakra-ui/react";
 
 import {
@@ -32,30 +34,29 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
-  FiInfo
+  FiInfo,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
+import { useRouter } from "next/router";
 
 const LinkItems = [
-  { name: "Home", icon: FiHome , route:"/" },
-  { name: "Trending", icon: FiTrendingUp , route:"/About" },
-  { name: "Explore", icon: FiCompass , route:"/About" },
-  { name: "Favourites", icon: FiStar , route:"/About" },
-  { name: "Settings", icon: FiSettings , route:"/About" },
-  { name: "About", icon: FiInfo, route:"/About" },
+  { name: "Home", icon: FiHome, route: "/" },
+  { name: "Trending", icon: FiTrendingUp, route: "/About" },
+  { name: "Explore", icon: FiCompass, route: "/About" },
+  { name: "Favourites", icon: FiStar, route: "/About" },
+  { name: "Settings", icon: FiSettings, route: "/About" },
+  { name: "About", icon: FiInfo, route: "/About" },
 ];
 
 const Sidebar = ({ children }) => {
-//use state for close and open drawer mobile size
+  //use state for close and open drawer mobile size
   const [onClose, setOnClose] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [onOpen, setOnOpen] = useState(false);
 
-//functions to open and close the state from true to false and vice-versa
-
   return (
-    <Box minH="100vh" className="parent-bar" >
+    <Box minH="100vh" className="parent-bar">
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
@@ -84,6 +85,18 @@ const Sidebar = ({ children }) => {
 
 //Sidebar component
 const SidebarContent = ({ onClose, ...rest }) => {
+  //useRefs for the search forms
+  const [searchInput, setSearchInput] = useState("");
+  const router = useRouter();
+  //functions to open and close the state from true to false and vice-versa
+
+  //function of search
+  const searchBooks = async (e) => {
+    if (e.key === "Enter") {
+     router.push(`/search/books/${searchInput}`)
+    }
+  };
+
   return (
     <Box
       transition="3s ease"
@@ -96,17 +109,46 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}
       className="sidebar-content"
     >
-      <Flex  h="20" alignItems="center" mx="8" justifyContent="space-between">
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text color={"#805ad5"} fontSize="4xl" fontWeight="bold">
           Bookify
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      <Flex mt="30" h="10" alignItems="center" mx="8" justifyContent="space-between">
+
+      <Flex
+        mt="10px"
+        h="10"
+        alignItems="center"
+        mx="6"
+        justifyContent="space-between"
+      >
+        <FormControl onKeyDown={searchBooks}>
+          <Input
+            onChange={(event) => setSearchInput(event.target.value)}
+            id="search"
+            type="text"
+            placeholder="search"
+            autoComplete="off"
+            rounded={"full"}
+            bg="gray.100"
+            border={0}
+          />
+        </FormControl>
+      </Flex>
+
+      <Flex
+        mt="30"
+        h="10"
+        alignItems="center"
+        mx="8"
+        justifyContent="space-between"
+      >
         <Text color="#ddd" fontSize="2xl" fontWeight="bold">
           Discover
         </Text>
       </Flex>
+
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} route={link.route}>
           {link.name}
@@ -158,7 +200,7 @@ const NavItem = ({ icon, children, route, ...rest }) => {
 const MobileNav = ({ onOpen, ...rest }) => {
   return (
     <Flex
-    className="mobile-nav"
+      className="mobile-nav"
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 4 }}
       height="20"

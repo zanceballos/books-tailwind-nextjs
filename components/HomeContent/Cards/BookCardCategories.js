@@ -21,16 +21,17 @@ const BookCardCategories = ({ details }) => {
         borderRadius="lg"
         overflow="hidden"
         boxShadow="lg"
+        p={"2"}
       >
         <Center>
           {details.volumeInfo.imageLinks != undefined ? (
             <Image
               minH={{ base: "229px" }}
               maxH={{ base: "229px" }}
-              padding="4"
               src={details.volumeInfo.imageLinks.thumbnail}
               alt="alt"
               rounded="lg"
+              shadow={"lg"}
             />
           ) : (
             <Image
