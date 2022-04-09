@@ -5,7 +5,8 @@ const Layout = ({ children }) => {
   return (
     <>
       <Meta />
-      <Sidebar>{children}</Sidebar>
+      <Sidebar >{children}</Sidebar>
+      
     </>
   );
 };

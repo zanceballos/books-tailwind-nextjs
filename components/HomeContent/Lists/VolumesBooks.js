@@ -29,8 +29,8 @@ const VolumesBooks = ({ header, volumes }) => {
           minChildWidth={{
             base: "300px",
             lg: "300px",
-            md: "300px",
-            sm: "200px",
+            md: "170px",
+            sm: "170px",
           }}
           spacing="40px"
         >

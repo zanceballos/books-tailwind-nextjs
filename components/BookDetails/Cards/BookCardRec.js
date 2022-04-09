@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   Box,
   Text,
@@ -9,7 +9,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 import Link from "next/link";
+
 const BookCardRec = ({ book }) => {
+
+
+  
   return (
     <>
       <Box

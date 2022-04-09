@@ -19,7 +19,7 @@ const ExplorePromote = () => {
           rounded="lg"
           boxShadow="lg"
           rowSpan={{ base: 1, lg: 1, md: 1, sm: 1 }}
-          colSpan={{ base: 6, md: 6, sm: 12 }}
+          colSpan={{ base: 6, md: 6, sm: 6 }}
           bg="tomato"
         >
           <Center>
@@ -44,7 +44,7 @@ const ExplorePromote = () => {
           rounded="lg"
           boxShadow="lg"
           rowSpan={{ base: 1, lg: 1, md: 1, sm: 1 }}
-          colSpan={{ base: 6, md: 6, sm: 12 }}
+          colSpan={{ base: 6, md: 6, sm: 6 }}
           bg="tomato"
         >
           <Center>

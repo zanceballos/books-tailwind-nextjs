@@ -9,7 +9,6 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -36,17 +35,30 @@ import {
   FiChevronDown,
   FiInfo,
 } from "react-icons/fi";
-import { IconType } from "react-icons";
-import { ReactText } from "react";
-import { useRouter } from "next/router";
 
+import {
+  IoIosLogIn,
+} from "react-icons/io";
+import Link from "next/link";
+import { BsBook, BsPlusCircle } from "react-icons/bs";
+import { useRouter } from "next/router";
+import { useAuth } from "../../service/AuthService";
 const LinkItems = [
   { name: "Home", icon: FiHome, route: "/" },
-  { name: "Trending", icon: FiTrendingUp, route: "/About" },
+  { name: "Trending", icon: FiTrendingUp, route: "About" },
   { name: "Explore", icon: FiCompass, route: "/About" },
-  { name: "Favourites", icon: FiStar, route: "/About" },
-  { name: "Settings", icon: FiSettings, route: "/About" },
   { name: "About", icon: FiInfo, route: "/About" },
+];
+
+const AccountItems = [
+  { name: "Favourites", icon: FiStar, route: "/favourites" },
+  { name: "BookShelves", icon: BsBook, route: "/About" },
+  { name: "Account", icon: FiSettings, route: "/About" },
+];
+
+const GuestItems = [
+  { name: "Sign In", icon: IoIosLogIn, route: "/account/login" },
+  { name: "Create Account", icon: BsPlusCircle, route: "/account/register" },
 ];
 
 const Sidebar = ({ children }) => {
@@ -54,6 +66,9 @@ const Sidebar = ({ children }) => {
   const [onClose, setOnClose] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [onOpen, setOnOpen] = useState(false);
+
+  //Auth states
+  const { currentUser, logout } = useAuth();
 
   return (
     <Box minH="100vh" className="parent-bar">
@@ -88,12 +103,15 @@ const SidebarContent = ({ onClose, ...rest }) => {
   //useRefs for the search forms
   const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
+
+  const { currentUser, logout } = useAuth();
+
   //functions to open and close the state from true to false and vice-versa
 
   //function of search
   const searchBooks = async (e) => {
     if (e.key === "Enter") {
-     router.push(`/search/books/${searchInput}`)
+      router.push(`/search/books/${searchInput}`);
     }
   };
 
@@ -154,6 +172,35 @@ const SidebarContent = ({ onClose, ...rest }) => {
           {link.name}
         </NavItem>
       ))}
+
+      <Flex
+        mt="30"
+        h="10"
+        alignItems="center"
+        mx="8"
+        justifyContent="space-between"
+      >
+        <Text color="#ddd" fontSize="2xl" fontWeight="bold">
+          Your Account
+        </Text>
+      </Flex>
+      {currentUser ? (
+        <>
+          {AccountItems.map((link) => (
+            <NavItem key={link.name} icon={link.icon} route={link.route}>
+              {link.name}
+            </NavItem>
+          ))}
+        </>
+      ) : (
+        <>
+          {GuestItems.map((link) => (
+            <NavItem key={link.name} icon={link.icon} route={link.route}>
+              {link.name}
+            </NavItem>
+          ))}
+        </>
+      )}
     </Box>
   );
 };
@@ -198,6 +245,9 @@ const NavItem = ({ icon, children, route, ...rest }) => {
 
 //mobile sidebar component
 const MobileNav = ({ onOpen, ...rest }) => {
+  const { logout, currentUser } = useAuth();
+
+
   return (
     <Flex
       className="mobile-nav"
@@ -245,9 +295,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <HStack>
                 <Avatar
                   size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
+                  name="Izzan Razak"
+                  bgColor={"#805ad5"}
+                  color="white"
                 />
                 <VStack
                   display={{ base: "none", md: "flex" }}
@@ -265,15 +315,27 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 </Box>
               </HStack>
             </MenuButton>
-            <MenuList
-              bg={useColorModeValue("white", "gray.900")}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
-            >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
-            </MenuList>
+            {currentUser ? (
+              <MenuList>
+                <MenuItem>Account</MenuItem>
+                <MenuItem>Favourites</MenuItem>
+                <MenuItem>Bookshelves</MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => {
+                  logout()
+                }}>Sign out</MenuItem>
+              </MenuList>
+            ) : (
+              <MenuList>
+                <Link href="/account/login">
+                  <MenuItem>Sign In</MenuItem>
+                </Link>
+
+                <Link href="/account/register">
+                  <MenuItem>Create Account</MenuItem>
+                </Link>
+              </MenuList>
+            )}
           </Menu>
         </Flex>
       </HStack>

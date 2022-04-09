@@ -48,8 +48,8 @@ const CategoryVolumes = ({ header, pageid, query }) => {
             minChildWidth={{
               base: "200px",
               lg: "200px",
-              md: "220px",
-              sm: "200px",
+              md: "170px",
+              sm: "170px",
             }}
             spacing="40px"
           >
@@ -64,9 +64,8 @@ const CategoryVolumes = ({ header, pageid, query }) => {
           <SimpleGrid
             columns={{ base: 4, lg: 4, md: 4, sm: 2, xs: 2 }}
             minChildWidth={{
-              base: "200px",
               lg: "200px",
-              md: "220px",
+              md: "200px",
               sm: "200px",
             }}
             spacing="10"

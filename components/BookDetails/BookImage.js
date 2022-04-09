@@ -12,9 +12,86 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { FiHeart, FiBookmark } from "react-icons/fi";
+import { AiFillHeart } from "react-icons/ai";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
+import { db } from "../../config/firebase";
+import { useAuth } from "../../service/AuthService";
+import { useToast } from "@chakra-ui/react";
 const BookImage = ({ details }) => {
+  const { currentUser } = useAuth();
+  const toast= useToast()
+  const router = useRouter();
+  const [favourite, setFavourite] = useState(false);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (currentUser != null) {
+      db.collection("users")
+        .doc(currentUser.uid)
+        .collection("favourites")
+        .where("id", "==", details.id)
+        .get()
+        .then((results) => {
+          if (results.size > 0) {
+            setFavourite(true);
+            setLoading(false);
+          } else {
+            setFavourite(false);
+            setLoading(false);
+          }
+        });
+    } else {
+      setFavourite(false);
+      setLoading(false);
+    };
+  }, [details]);
+
+  const favouriteBook = () => {
+    if (currentUser != null) {
+      setFavourite(!favourite);
+      db.collection("users")
+        .doc(currentUser.uid)
+        .collection("favourites")
+        .add(details);
+    } else {
+      toast({
+        title: "Please Login!",
+        description: "You need an account to perform this action!",
+        status: "info",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+      router.replace("/account/login");
+    }
+  };
+
+  const removeFavourite = () => {
+    if (currentUser != null) {
+      setFavourite(!favourite);
+      db.collection("users")
+        .doc(currentUser.uid)
+        .collection("favourites")
+        .where("id", "==", details.id)
+        .get()
+        .then((results) => {
+          results.forEach((docs) => {
+            docs.ref.delete();
+          });
+        });
+    } else {
+      toast({
+        title: "Please Login!",
+        description: "You need an account to perform this action!",
+        status: "info",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+      router.replace("/account/login");
+    }
+  };
+
   return (
     <div>
       <Box
@@ -47,6 +124,7 @@ const BookImage = ({ details }) => {
                 : "https://www.biotrop.org/images/default-book.png",
             filter: "blur(15px)",
             zIndex: -1,
+            
           }}
           _groupHover={{
             _after: {
@@ -86,7 +164,7 @@ const BookImage = ({ details }) => {
             justifyContent="center"
           >
             {details.volumeInfo.title != undefined
-              ? details.volumeInfo.publisher
+              ? details.volumeInfo.title
               : "No Title"}
           </Heading>
 
@@ -105,17 +183,25 @@ const BookImage = ({ details }) => {
                 : "No Authors"}
             </Text>
           </Stack>
-          <Link href={`/books/details/${details.id}`} passHref>
-            <Button width="80%" rounded="3xl" colorScheme="purple" mt="100px">
-              <Icon
-                mr="4"
-                fontSize={"16"}
-                _groupHover={{ color: "black" }}
-                as={FiHeart}
-              ></Icon>
-              Favourites
-            </Button>
-          </Link>
+
+          <Button
+            variant={favourite ? "solid" : "outline"}
+            width="80%"
+            rounded="3xl"
+            colorScheme="purple"
+            mt="100px"
+            onClick={favourite === false ? favouriteBook : removeFavourite}
+            isLoading={loading ? true : false}
+          >
+            <Icon
+              mr="4"
+              fontSize={"16"}
+              color={favourite && "white"}
+              as={favourite ? AiFillHeart : FiHeart}
+            ></Icon>
+            {favourite ? "Added To Favorites" : "Favorite"}
+          </Button>
+
           <Link href={`/books/details/${details.id}`} passHref>
             <Button width="80%" rounded="3xl" colorScheme="gray">
               <Icon

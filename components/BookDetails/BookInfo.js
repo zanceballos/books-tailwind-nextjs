@@ -50,7 +50,7 @@ const BookInfo = ({ details }) => {
           bg=""
           p={6}
         >
-          <Text fontWeight="bold" fontSize={"2.5rem"}>
+          <Text fontWeight="bold" fontSize={{lg:"2.5rem", md:"2rem", sm:"1.8rem"}}>
             {details.volumeInfo.title != undefined
               ? details.volumeInfo.title
               : "No Title"}
