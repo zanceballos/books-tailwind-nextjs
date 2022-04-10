@@ -6,6 +6,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import VolumesBooks from "./VolumesBooks";
+import { server } from "../../../config";
 const VolumesLists = ({ header, pageid, query }) => {
   const [volumes, setVolumes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +15,7 @@ const VolumesLists = ({ header, pageid, query }) => {
     //Call the api and set te state
     const getVolumesfromURl = async () => {
       const res = await fetch(
-        `http://localhost:3000/api/books/volumes/${query}`
+        `${server}/api/books/volumes/${query}`
       );
       const volumes = await res.json();
       return volumes;
