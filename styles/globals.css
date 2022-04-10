@@ -104,7 +104,7 @@ a {
 }
 
 .column-explore:nth-child(1) {
-  background-image: url("../assets/HomeAssets/explore.jpg");
+  background-image: url("/explore.jpg");
   background-size: cover;
   background-position: center;
   display: flex;
