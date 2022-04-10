@@ -82,7 +82,7 @@ const Sidebar = ({ children }) => {
 
   useEffect(() => {
 
-    if (auth.currentUser !== null ) {
+    if (currentUser !== null ) {
       db.collection("users")
         .doc(currentUser.uid)
         .get()
@@ -355,7 +355,7 @@ const MobileNav = ({ onOpenDrawer, onCloseDrawer, changePassword, userInfo, ...r
                 transition="all 0.3s"
                 _focus={{ boxShadow: "none" }}
               >
-                {auth.currentUser !== null ? (
+                {currentUser !== null ? (
                   <HStack>
                     <Avatar
                       size={"sm"}
@@ -414,7 +414,7 @@ const MobileNav = ({ onOpenDrawer, onCloseDrawer, changePassword, userInfo, ...r
           </Flex>
         </HStack>
       </Flex>
-      {auth.currentUser !== null && <AccountModal
+      {currentUser !== null && <AccountModal
         onOpen={onOpen}
         isOpen={isOpen}
         onClose={onClose}
