@@ -11,7 +11,7 @@ import {
   SimpleGrid,
   Text,
   Button,
-  Grid
+  Grid,
 } from "@chakra-ui/react";
 const FavouriteLists = () => {
   const [list, setList] = useState([]);
@@ -119,20 +119,17 @@ const FavouriteLists = () => {
         </>
       ) : (
         <>
-          <Grid
-            templateColumns="repeat(3, 1fr)"
-            gap={4}
-          >
-            {list.length === 0 ? (
-              <Empty />
-            ) : (
-              list.map((book) => (
-                <GridItem key={book.id} colSpan={{lg:1,md:3, sm:3 }}>
+          {list.length === 0 ? (
+            <Empty />
+          ) : (
+            <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+              {list.map((book) => (
+                <GridItem key={book.id} colSpan={{ lg: 1, md: 3, sm: 3 }}>
                   <FavouriteCard book={book} remove={removeFromFavourites} />
                 </GridItem>
-              ))
-            )}
-          </Grid>
+              ))}
+            </Grid>
+          )}
         </>
       )}
     </>

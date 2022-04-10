@@ -19,4 +19,7 @@ if (!firebase.apps.length) {
 const auth = firebase.app().auth();
 const db = firebase.app().firestore();
 
-export { auth, db };
+//google sign in function
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+export { auth, db, googleProvider };

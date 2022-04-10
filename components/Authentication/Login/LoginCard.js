@@ -17,7 +17,7 @@ import { AiFillGoogleCircle } from "react-icons/ai";
 import Link from "next/link";
 import { useRouter } from "next/router";
 const LoginCard = () => {
-  const { login, currentUser } = useAuth();
+  const { login, currentUser, googleSignIn } = useAuth();
   const router = useRouter();
 
   const username = useRef();
@@ -37,8 +37,17 @@ const LoginCard = () => {
       await login(username.current.value, password.current.value);
       router.replace("/");
     } catch {
-      setLoading(false)
+      setLoading(false);
       setError("Username or Password is Incorrect");
+    }
+  }
+
+  async function googleLogin (){
+    try{
+      await googleSignIn()
+ 
+    }catch(e){
+      alert(e)
     }
   }
 
@@ -77,6 +86,18 @@ const LoginCard = () => {
                 ref={password}
                 type="password"
               ></Input>
+
+              <Link href="/account/changepassword" passHref>
+                <Text
+                  mt="10px"
+                  float={"right"}
+                  fontWeight={"bold"}
+                  color="#805ad5"
+                >
+                  Forget Password?
+                </Text>
+              </Link>
+
               {error && (
                 <Alert my="1%" rounded="lg" height={"80px"} status="error">
                   <AlertIcon />
@@ -86,12 +107,13 @@ const LoginCard = () => {
               )}
 
               <Button
+                mt="20px"
                 colorScheme={"purple"}
                 width="100%"
                 mb="10px"
                 height={"60px"}
                 isLoading={loading ? true : false}
-                onClick= {loginUser}
+                onClick={loginUser}
               >
                 Sign In
               </Button>
@@ -100,6 +122,7 @@ const LoginCard = () => {
                 height={"60px"}
                 mb="10px"
                 colorScheme="green"
+                onClick={googleLogin}
                 leftIcon={<AiFillGoogleCircle />}
               >
                 Google Sign in

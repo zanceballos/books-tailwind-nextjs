@@ -135,3 +135,20 @@ a {
   align-items: center;
   justify-content: center;
 }
+
+.intro-section {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 650px;
+  position: relative;
+  overflow: hidden;
+  padding: 200px 0 80px;
+  background-color: #eaf6cf;
+}
+
+.about-intro{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
