@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, GridItem, Box, Center, Text } from "@chakra-ui/react";
+import Link from "next/link";
 const FavouritesPromote = () => {
   return (
     <>
@@ -24,18 +25,20 @@ const FavouritesPromote = () => {
         >
           <Center>
             <Box>
-              <Text
-                fontSize={{
-                  base: "4rem",
-                  lg: "3rem",
-                  md: "2rem",
-                  sm: "1.5rem",
-                }}
-                fontWeight="bold"
-                color="white"
-              >
-                Manage Your Favourites
-              </Text>
+              <Link href="/favourites" passHref>
+                <Text
+                  fontSize={{
+                    base: "4rem",
+                    lg: "3rem",
+                    md: "2rem",
+                    sm: "1.5rem",
+                  }}
+                  fontWeight="bold"
+                  color="white"
+                >
+                  Manage Your Favourites
+                </Text>
+              </Link>
             </Box>
           </Center>
         </GridItem>

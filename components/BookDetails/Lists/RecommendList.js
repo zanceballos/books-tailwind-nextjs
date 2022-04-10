@@ -14,7 +14,7 @@ const RecommendList = ({ details, similar }) => {
         >
           Similar books from {details.volumeInfo.authors[0]}
         </Text>
-        <SimpleGrid columns={{base:4, lg:4,md: 2, sm:2}} spacing={"10px"} minChildWidth="400px">
+        <SimpleGrid columns={{base:4, lg:4,md: 2, sm:2}} spacing={"10px"} minChildWidth="380px">
           {similar.map((book) => (
             <BookCardRec key={book.id} book={book}/>
           )).slice(0,4)}

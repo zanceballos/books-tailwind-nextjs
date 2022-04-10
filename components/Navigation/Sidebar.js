@@ -33,7 +33,7 @@ import {
   SimpleGrid,
   Image,
   Center,
-  Spinner
+  Spinner,
 } from "@chakra-ui/react";
 
 import {
@@ -81,8 +81,7 @@ const Sidebar = ({ children }) => {
   const { currentUser, changePassword } = useAuth();
 
   useEffect(() => {
-
-    if (currentUser !== null ) {
+    if (currentUser !== null) {
       db.collection("users")
         .doc(currentUser.uid)
         .get()
@@ -119,17 +118,25 @@ const Sidebar = ({ children }) => {
             </DrawerContent>
           </Drawer>
           {/* mobilenav */}
-          <MobileNav changePassword={changePassword} onOpenDrawer={onOpen} userInfo={userInfo} />
+          <MobileNav
+            changePassword={changePassword}
+            onOpenDrawer={onOpen}
+            userInfo={userInfo}
+          />
           <Box ml={{ base: 0, md: 72 }} p="4">
             {children}
           </Box>
         </Box>
-      ) :  <>
-        <Box textAlign={"center"} my={{lg:"10%", md:"20%" , sm:"25%"}}>
-          <Text fontSize={"2rem"} fontWeight="bold" color={"#805ad5"}>Loading Bookify...</Text>
-          <Spinner size='xl' my="1%" color="#805ad5"></Spinner>
-        </Box>
-      </>}
+      ) : (
+        <>
+          <Box textAlign={"center"} my={{ lg: "10%", md: "20%", sm: "25%" }}>
+            <Text fontSize={"2rem"} fontWeight="bold" color={"#805ad5"}>
+              Loading Bookify...
+            </Text>
+            <Spinner size="xl" my="1%" color="#805ad5"></Spinner>
+          </Box>
+        </>
+      )}
     </>
   );
 };
@@ -177,7 +184,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
         mx="6"
         justifyContent="space-between"
       >
-        <FormControl onKeyDown={searchBooks}>
+        <FormControl
+          onKeyDown={searchBooks}
+        >
           <Input
             onChange={(event) => setSearchInput(event.target.value)}
             id="search"
@@ -297,7 +306,13 @@ const NavItem = ({ icon, children, onClose, route, ...rest }) => {
 };
 
 //mobile sidebar component
-const MobileNav = ({ onOpenDrawer, onCloseDrawer, changePassword, userInfo, ...rest }) => {
+const MobileNav = ({
+  onOpenDrawer,
+  onCloseDrawer,
+  changePassword,
+  userInfo,
+  ...rest
+}) => {
   console.log(userInfo);
   const { logout, currentUser } = useAuth();
 
@@ -386,9 +401,9 @@ const MobileNav = ({ onOpenDrawer, onCloseDrawer, changePassword, userInfo, ...r
                 <MenuList>
                   <MenuItem onClick={onOpen}>Account</MenuItem>
                   <Link href={"/favourites"} passHref>
-                  <MenuItem>Favourites</MenuItem>
+                    <MenuItem>Favourites</MenuItem>
                   </Link>
-                
+
                   <MenuItem>Bookshelves</MenuItem>
                   <MenuDivider />
                   <MenuItem
@@ -414,96 +429,109 @@ const MobileNav = ({ onOpenDrawer, onCloseDrawer, changePassword, userInfo, ...r
           </Flex>
         </HStack>
       </Flex>
-      {currentUser !== null && <AccountModal
-        onOpen={onOpen}
-        isOpen={isOpen}
-        onClose={onClose}
-        userInfo={userInfo}
-        changePassword={changePassword}
-        currentUser={currentUser}
-      />}
+      {currentUser !== null && (
+        <AccountModal
+          onOpen={onOpen}
+          isOpen={isOpen}
+          onClose={onClose}
+          userInfo={userInfo}
+          changePassword={changePassword}
+          currentUser={currentUser}
+        />
+      )}
     </>
   );
 };
 
-const AccountModal = ({ isOpen, onClose, userInfo, currentUser, changePassword }) => {
-
+const AccountModal = ({
+  isOpen,
+  onClose,
+  userInfo,
+  currentUser,
+  changePassword,
+}) => {
   const changeUserPassword = async () => {
-    await changePassword(currentUser.email)
-  }
+    await changePassword(currentUser.email);
+  };
 
   return (
     <>
-     {userInfo !== null && <Modal size={"xl"} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Account Information</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Center>
-              <Image alt="alt" src="/account_male.svg" width={"200px"}></Image>
-            </Center>
+      {userInfo !== null && (
+        <Modal size={"xl"} isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Account Information</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Center>
+                <Image
+                  alt="alt"
+                  src="/account_male.svg"
+                  width={"200px"}
+                ></Image>
+              </Center>
 
-            <Box rounded={"lg"} my={"4%"}>
-              <SimpleGrid columns={3} spacing="10px" p="3">
-                <Box>
-                  <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
-                    Username
-                  </Text>
-                  <Text fontWeight={"bold"} fontSize="1.2rem">
-                    {userInfo.username}
-                  </Text>
-                </Box>
-                <Box>
-                  <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
-                    Provider
-                  </Text>
-                  <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
-                    {userInfo.AuthProvider}
-                  </Text>
-                </Box>
-                <Box>
-                  <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
-                    Role
-                  </Text>
-                  <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
-                    {userInfo.role}
-                  </Text>
-                </Box>
-              </SimpleGrid>
-              <SimpleGrid columns={2} spacing="10px" p="3">
-                <Box>
-                  <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
-                    Email
-                  </Text>
-                  <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
-                    {userInfo.email}
-                  </Text>
-                </Box>
-                <Box>
-                  <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
-                    Date Registered
-                  </Text>
-                  <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
-                    {userInfo.dateRegistered}
-                  </Text>
-                </Box>
-              </SimpleGrid>
-            </Box>
-          </ModalBody>
+              <Box rounded={"lg"} my={"4%"}>
+                <SimpleGrid columns={3} spacing="10px" p="3">
+                  <Box>
+                    <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
+                      Username
+                    </Text>
+                    <Text fontWeight={"bold"} fontSize="1.2rem">
+                      {userInfo.username}
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
+                      Provider
+                    </Text>
+                    <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
+                      {userInfo.AuthProvider}
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
+                      Role
+                    </Text>
+                    <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
+                      {userInfo.role}
+                    </Text>
+                  </Box>
+                </SimpleGrid>
+                <SimpleGrid columns={2} spacing="10px" p="3">
+                  <Box>
+                    <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
+                      Email
+                    </Text>
+                    <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
+                      {userInfo.email}
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight={"bold"} fontSize="0.8rem" color={"gray"}>
+                      Date Registered
+                    </Text>
+                    <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
+                      {userInfo.dateRegistered}
+                    </Text>
+                  </Box>
+                </SimpleGrid>
+              </Box>
+            </ModalBody>
 
-          <ModalFooter>
-            {userInfo.AuthProvider === "password" && (
-              <Button onClick={changeUserPassword} variant="ghost">
-                Change Password
+            <ModalFooter>
+              {userInfo.AuthProvider === "password" && (
+                <Button onClick={changeUserPassword} variant="ghost">
+                  Change Password
+                </Button>
+              )}
+              <Button onClick={onClose} colorScheme={"red"}>
+                Delete Account
               </Button>
-            )}
-            <Button onClick={onClose} colorScheme={"red"}>
-              Delete Account
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>}
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
     </>
   );
 };

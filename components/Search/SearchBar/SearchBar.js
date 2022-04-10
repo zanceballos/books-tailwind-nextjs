@@ -105,7 +105,7 @@ const SearchBar = () => {
                         onKeyDown={() => handleSearchOnEnter}
                       />
                     </Box>
-                    <Box mx="5px">
+                    <Box mx="5px" display={{lg:"flex" , md: "none", sm:"none"}}>
                       <Menu width={"100%"}>
                         <MenuButton
                           as={Button}

@@ -58,12 +58,13 @@ const BookCardReleases = ({ details }) => {
             alt="https://www.biotrop.org/images/default-book.png"
           />
         </Box>
-        <Stack pt={10} align="center">
+        <Stack pt={10} textAlign="center" align="center">
           <Text
             color={"gray.500"}
             fontSize={"sm"}
             alignContent="center"
             textTransform={"uppercase"}
+            noOfLines={1}
           >
             {details.volumeInfo.publisher}
           </Text>
@@ -73,6 +74,7 @@ const BookCardReleases = ({ details }) => {
             fontSize={{ base: "1.5rem", lg: "1.5rem", md: "1rem", sm: "1rem" }}
             fontFamily={"body"}
             fontWeight={800}
+            noOfLines={{sm:"2"}}
           >
             {details.volumeInfo.title}
           </Heading>

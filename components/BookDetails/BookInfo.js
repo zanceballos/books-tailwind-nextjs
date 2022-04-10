@@ -26,14 +26,12 @@ const BookInfo = ({ details }) => {
         mt="2%"
         minH="500px"
         templateRows={{
-          base: "repeat(1, 1fr)",
           lg: "repeat(1, 1fr)",
         }}
         templateColumns={{
-          base: "repeat(4, 1fr)",
           lg: "repeat(4, 1fr)",
           md: "repeat(1, 1fr)",
-          sm: "repeat(1, 1fr)",
+          sm: "auto",
         }}
         gap={4}
       >
@@ -119,6 +117,7 @@ const BookInfo = ({ details }) => {
               noOfLines={5}
               color={"gray"}
               justifyContent={""}
+              width="100%"
             >
               {details.volumeInfo.description != undefined
                 ? details.volumeInfo.description
