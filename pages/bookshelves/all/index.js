@@ -6,4 +6,4 @@ const Bookshelves = () => {
   )
 }
 
-export default BookShelves
+export default Bookshelves
