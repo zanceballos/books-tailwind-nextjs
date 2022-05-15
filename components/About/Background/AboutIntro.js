@@ -17,6 +17,7 @@ const AboutIntro = () => {
         bgColor={"#ae8aff"}
         width="100%"
         height={{ lg: "500px", md: "700px", sm: "700px" }}
+        textAlign={{sm:'center'}}
       >
         <Container maxW={{ lg: "85%", md: "100%", sm: "100%" }}>
           <Grid templateColumns={"repeat(4, 1fr)"}>
@@ -69,7 +70,7 @@ const AboutIntro = () => {
                 <Image
                   src="/about-1.svg"
                   alt="alt"
-                  minWidth={"400px"}
+                  minWidth={"200px"}
                   maxWidth={"600px"}
                 ></Image>
               </Center>

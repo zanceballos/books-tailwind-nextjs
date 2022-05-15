@@ -8,7 +8,7 @@ import { extendTheme } from "@chakra-ui/react";
 //break points to fit small device
 const breakpoints = {
   sm: "10em",
-  lg:"68em"
+  lg:"72em"
 };
 const theme = extendTheme({ breakpoints });
 

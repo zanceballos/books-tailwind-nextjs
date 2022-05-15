@@ -26,7 +26,7 @@ const BookDetail = ({ bookInfo, similarBooks }) => {
   return (
     <>
       {!loading && (
-        <Container maxW={{lg: "90%", md: "100%", sm: "100%" }}>
+        <Container maxW={{lg: "90%", md: "100%"}}>
           <Breadcrumb
             spacing="8px"
             separator={<ChevronRightIcon color="gray.500" />}

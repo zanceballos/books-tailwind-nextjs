@@ -199,7 +199,7 @@ const BookImage = ({ details }) => {
               color={favourite && "white"}
               as={favourite ? AiFillHeart : FiHeart}
             ></Icon>
-            {favourite ? "Added To Favorites" : "Favorite"}
+            {favourite ? "Added To Favourites" : "Favourite"}
           </Button>
 
           <Link href={`/books/details/${details.id}`} passHref>

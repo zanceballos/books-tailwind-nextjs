@@ -13,8 +13,6 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
-  BoxProps,
-  FlexProps,
   Menu,
   MenuButton,
   MenuDivider,
@@ -41,13 +39,11 @@ import {
   FiTrendingUp,
   FiCompass,
   FiStar,
-  FiSettings,
   FiMenu,
   FiBell,
   FiChevronDown,
   FiInfo,
 } from "react-icons/fi";
-import account_logo from "../../public/account_male.svg";
 import { IoIosLogIn } from "react-icons/io";
 import Link from "next/link";
 import { BsBook, BsPlusCircle } from "react-icons/bs";
@@ -63,7 +59,7 @@ const LinkItems = [
 
 const AccountItems = [
   { name: "Favourites", icon: FiStar, route: "/favourites" },
-  { name: "BookShelves", icon: BsBook, route: "/About" },
+  { name: "BookShelves", icon: BsBook, route: "/bookshelves/all" },
 ];
 
 const GuestItems = [
@@ -78,7 +74,7 @@ const Sidebar = ({ children }) => {
   const [userInfo, setUserInfo] = useState();
 
   //Auth states
-  const { currentUser, changePassword } = useAuth();
+  const { currentUser, changePassword, logout } = useAuth();
 
   useEffect(() => {
     if (currentUser !== null) {
@@ -87,7 +83,6 @@ const Sidebar = ({ children }) => {
         .get()
         .then((doc) => {
           setUserInfo(doc.data());
-          console.log(doc.data());
           setLoading(false);
         });
     } else {
@@ -103,6 +98,7 @@ const Sidebar = ({ children }) => {
           <SidebarContent
             onClose={() => onClose}
             display={{ base: "none", md: "block" }}
+            currentUser={currentUser}
           />
           <Drawer
             autoFocus={false}
@@ -122,6 +118,8 @@ const Sidebar = ({ children }) => {
             changePassword={changePassword}
             onOpenDrawer={onOpen}
             userInfo={userInfo}
+            currentUser={currentUser}
+            logout={logout}
           />
           <Box ml={{ base: 0, md: 72 }} p="4">
             {children}
@@ -142,14 +140,10 @@ const Sidebar = ({ children }) => {
 };
 
 //Sidebar component
-const SidebarContent = ({ onClose, ...rest }) => {
+const SidebarContent = ({ onClose, currentUser, ...rest }) => {
   //useRefs for the search forms
   const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
-
-  const { currentUser, logout } = useAuth();
-
-  //functions to open and close the state from true to false and vice-versa
 
   //function of search
   const searchBooks = async (e) => {
@@ -311,20 +305,12 @@ const MobileNav = ({
   onCloseDrawer,
   changePassword,
   userInfo,
+  logout,
+  currentUser,
   ...rest
 }) => {
-  console.log(userInfo);
-  const { logout, currentUser } = useAuth();
-
   //For the modal only
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [openModal, setOpenModal] = useState(false);
-
-  const openAccountModal = () => {
-    setOpenModal(!openModal);
-  };
-
   return (
     <>
       <Flex
@@ -370,7 +356,7 @@ const MobileNav = ({
                 transition="all 0.3s"
                 _focus={{ boxShadow: "none" }}
               >
-                {currentUser !== null ? (
+                {currentUser !== null && userInfo !== null ? (
                   <HStack>
                     <Avatar
                       size={"sm"}

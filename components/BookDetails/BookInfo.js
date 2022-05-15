@@ -31,7 +31,6 @@ const BookInfo = ({ details }) => {
         templateColumns={{
           lg: "repeat(4, 1fr)",
           md: "repeat(1, 1fr)",
-          sm: "auto",
         }}
         gap={4}
       >
@@ -100,7 +99,7 @@ const BookInfo = ({ details }) => {
               </HStack>
             </Box>
           </Box>
-          <Box my={"2%"}>
+          <Box my={{lg:"2%", md:"2%" , sm:"10%"}}>
             <HStack color={"#805ad5"}>
               <Icon
                 mr="1"
@@ -114,10 +113,11 @@ const BookInfo = ({ details }) => {
             </HStack>
             <Text
               textAlign={"justify"}
-              noOfLines={5}
+              noOfLines={{base:"5", sm:"10"}}
               color={"gray"}
               justifyContent={""}
               width="100%"
+           
             >
               {details.volumeInfo.description != undefined
                 ? details.volumeInfo.description
@@ -129,7 +129,7 @@ const BookInfo = ({ details }) => {
             spacing={"10px"}
             mt={"1.2rem"}
             mb={"1.2rem"}
-            minChildWidth="350px"
+            minChildWidth="300px"
           >
             <Box boxShadow={"md"} rounded={"lg"}>
               <Box p={"5"}>

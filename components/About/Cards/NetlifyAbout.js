@@ -17,6 +17,7 @@ const NetlifyAbout = () => {
         bgColor={"#ae8aff"}
         width="100%"
         height={{ lg: "550px", md: "750px", sm: "750px" }}
+        textAlign={{sm:'center'}}
       >
         <Container maxW={{ lg: "85%", md: "100%", sm: "100%" }}>
           <Grid templateColumns={"repeat(4, 1fr)"}>
@@ -56,7 +57,7 @@ const NetlifyAbout = () => {
                 <Image
                   src="/firebase-about.svg"
                   alt="alt"
-                  minWidth={"400px"}
+                  minWidth={"200px"}
                   maxWidth={"600px"}
                   maxH={"400px"}
                 ></Image>

@@ -16,24 +16,35 @@ import {
 const FavouriteLists = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   const { currentUser } = useAuth();
   const toast = useToast();
 
-  useState(() => {
+  useEffect(() => {
     // Load the list
-    db.collection("users")
-      .doc(currentUser.uid)
-      .collection("favourites")
-      .get()
-      .then((results) => {
-        results.docs.forEach((item) => {
-          setList((list) => [...list, item.data()]);
+    async function getFavourites() {
+      console.log("Running the call");
+      setIsLoaded(true);
+      await db
+        .collection("users")
+        .doc(currentUser.uid)
+        .collection("favourites")
+        .get()
+        .then((results) => {
+          console.log("Inside for loop");
+          results.docs.forEach((item) => {
+            setList((list) => [...list, item.data()]);
+          });
+        })
+        .then(() => {
+          console.log("Finished!");
+          setLoading(false);
+          console.log(list);
         });
-      })
-      .then(() => {
-        setLoading(false);
-        console.log(list);
-      });
+    }
+    if (!isLoaded) {
+      getFavourites();
+    }
   }, []);
 
   const removeFromFavourites = (id) => {
@@ -62,26 +73,7 @@ const FavouriteLists = () => {
 
   return (
     <>
-      {list.length > 0 && (
-        <Box
-          rounded={"lg"}
-          p={"6"}
-          width="100%"
-          backgroundRepeat="no-repeat"
-          backgroundPosition={"center"}
-          alignItems="center"
-          mb="2%"
-        >
-          <Text
-            fontWeight={"bold"}
-            fontSize={{ base: "3rem", lg: "3rem", md: "2rem", sm: "2rem" }}
-          >
-            Your Favourites
-          </Text>
-          <Text fontSize="1rem">List of all of your favourite books here!</Text>
-        </Box>
-      )}
-      {loading ? (
+      {loading === true ? (
         <>
           <Box
             rounded={"lg"}
@@ -119,16 +111,42 @@ const FavouriteLists = () => {
         </>
       ) : (
         <>
-          {list.length === 0 ? (
+          {!loading && list.length === 0 ? (
             <Empty />
           ) : (
-            <Grid templateColumns="repeat(3, 1fr)" gap={4}>
-              {list.map((book) => (
-                <GridItem key={book.id} colSpan={{ lg: 1, md: 3, sm: 3 }}>
-                  <FavouriteCard book={book} remove={removeFromFavourites} />
-                </GridItem>
-              ))}
-            </Grid>
+            <>
+              <Box
+                rounded={"lg"}
+                p={"6"}
+                width="100%"
+                backgroundRepeat="no-repeat"
+                backgroundPosition={"center"}
+                alignItems="center"
+                mb="2%"
+              >
+                <Text
+                  fontWeight={"bold"}
+                  fontSize={{
+                    base: "3rem",
+                    lg: "3rem",
+                    md: "2rem",
+                    sm: "2rem",
+                  }}
+                >
+                  Your Favourites
+                </Text>
+                <Text fontSize="1rem">
+                  List of all of your favourite books here!
+                </Text>
+              </Box>
+              <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                {list.map((book) => (
+                  <GridItem key={book.id} colSpan={{ lg: 1, md: 3, sm: 3 }}>
+                    <FavouriteCard book={book} remove={removeFromFavourites} />
+                  </GridItem>
+                ))}
+              </Grid>
+            </>
           )}
         </>
       )}

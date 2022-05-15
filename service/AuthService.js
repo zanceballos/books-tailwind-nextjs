@@ -67,6 +67,7 @@ function AuthProvider({ children }) {
         isClosable: true,
         position: "top",
       });
+    
     });
   }
 

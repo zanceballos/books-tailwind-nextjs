@@ -1,8 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { withProtected } from "../../hook/route";
-import FavIntroCard from "../../components/Favourites/Cards/FavIntroCard";
 import FavouriteLists from "../../components/Favourites/Lists/FavouriteLists";
-const favourites = ({ auth }) => {
+const Favourites = () => {
+
+  useEffect(() => {
+    console.log("I run from the root")
+    
+  },[])
+
   return (
     <>
       <FavouriteLists />
@@ -10,4 +15,4 @@ const favourites = ({ auth }) => {
   );
 };
 
-export default withProtected(favourites);
+export default withProtected(Favourites);
