@@ -47,7 +47,7 @@ const BookInfo = ({ details }) => {
           bg=""
           p={6}
         >
-          <Text fontWeight="bold" fontSize={{lg:"2.5rem", md:"2rem", sm:"1.8rem"}}>
+          <Text fontWeight="bold" fontSize={{lg:"1.8rem", md:"1.5rem", sm:"1.5rem"}}>
             {details.volumeInfo.title != undefined
               ? details.volumeInfo.title
               : "No Title"}
@@ -79,7 +79,7 @@ const BookInfo = ({ details }) => {
                   : "Coming Soon"}
               </Badge>
             </Box>
-            <Box width={"300px"} mt="1%">
+            <Box width={"300px"} my={"5%"}>
               <HStack>
                 <Avatar
                   bg={"#805ad5"}
@@ -113,7 +113,7 @@ const BookInfo = ({ details }) => {
             </HStack>
             <Text
               textAlign={"justify"}
-              noOfLines={{base:"5", sm:"10"}}
+              noOfLines={{base:"3", sm:"5"}}
               color={"gray"}
               justifyContent={""}
               width="100%"
@@ -122,6 +122,10 @@ const BookInfo = ({ details }) => {
               {details.volumeInfo.description != undefined
                 ? details.volumeInfo.description
                 : "No Description Yet"}
+
+            </Text>
+            <Text colorScheme={"purple"} color={"#805ad5"} as="u"  >
+              <b>More Description...</b>  
             </Text>
           </Box>
           <SimpleGrid

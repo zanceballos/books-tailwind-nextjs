@@ -12,7 +12,6 @@ import {
 import Link from "next/link";
 const NextIntro = () => {
 
-    console.log(process.env.NODE_ENV === "production")
   return (
     <>
       <Box

@@ -12,8 +12,10 @@ const VolumesLists = ({ header, pageid, query }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log(server)
     //Call the api and set te state
     const getVolumesfromURl = async () => {
+     
       const res = await fetch(
         `${server}/api/books/volumes/${query}`
       );
