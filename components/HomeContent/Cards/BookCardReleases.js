@@ -10,9 +10,22 @@ import {
   Stack,
   Image,
 } from "@chakra-ui/react";
-import Link from "next/link";
+import NextLink from "next/link";
 
 const BookCardReleases = ({ details }) => {
+  const { volumeInfo } = details;
+
+  const highResUrl = `https://books.google.com/books/publisher/content/images/frontcover/${details.id}?fife=w400-h600&source=gbs_api`;
+
+
+  const placeHolder = "https://www.biotrop.org/images/default-book.png";
+
+  // State to hold the current image being displayed
+  const [imgSrc, setImgSrc] = useState(highResUrl || placeHolder);
+
+  useEffect(() => {
+    setImgSrc(highResUrl || placeHolder);
+  }, [highResUrl]);
   return (
     <div>
       <Box
@@ -39,7 +52,7 @@ const BookCardReleases = ({ details }) => {
             pos: "absolute",
             top: 5,
             left: 0,
-            backgroundImage: `url(${details.volumeInfo.imageLinks.thumbnail})`,
+            backgroundImage: `url(${imgSrc})`,
             filter: "blur(15px)",
             zIndex: -1,
           }}
@@ -54,8 +67,19 @@ const BookCardReleases = ({ details }) => {
             height={230}
             width={282}
             objectFit={"cover"}
-            src={details.volumeInfo.imageLinks.thumbnail}
-            alt="https://www.biotrop.org/images/default-book.png"
+            src={imgSrc}
+            alt={volumeInfo.title || "Book Cover"}
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (img.naturalWidth < 50 && imgSrc !== highResUrl) {
+                setImgSrc(placeHolder);
+              }
+            }}
+            onError={() => {
+              if (imgSrc !== placeHolder) {
+                setImgSrc(placeHolder);
+              }
+            }}
           />
         </Box>
         <Stack pt={10} textAlign="center" align="center">
@@ -74,7 +98,7 @@ const BookCardReleases = ({ details }) => {
             fontSize={{ base: "1.5rem", lg: "1.5rem", md: "1rem", sm: "1rem" }}
             fontFamily={"body"}
             fontWeight={800}
-            noOfLines={{sm:"2"}}
+            noOfLines={{ sm: "2" }}
           >
             {details.volumeInfo.title}
           </Heading>
@@ -92,17 +116,18 @@ const BookCardReleases = ({ details }) => {
               {details.volumeInfo.authors[0]}
             </Text>
           </Stack>
-          <Link href={`/books/details/${details.id}`} passHref>
-            <Button
-              width="80%"
-              position="absolute"
-              bottom="4"
-              rounded="3xl"
-              colorScheme="gray"
-            >
-              Details
-            </Button>
-          </Link>
+
+          <Button
+            as={NextLink}
+            href={`/books/details/${details.id}`}
+            width="80%"
+            position="absolute"
+            bottom="4"
+            rounded="3xl"
+            colorScheme="gray"
+          >
+            Details
+          </Button>
         </Stack>
       </Box>
     </div>

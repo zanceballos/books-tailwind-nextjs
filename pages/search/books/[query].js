@@ -4,7 +4,6 @@ import SearchList from "../../../components/Search/Lists/SearchList";
 import { Box, Text } from "@chakra-ui/react";
 import { server } from "../../../config";
 const SearchBook = ({ results }) => {
-  console.log(results);
   const [search, setSearch] = useState(false);
   return (
     <>

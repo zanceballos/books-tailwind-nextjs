@@ -2,23 +2,26 @@ import React from "react";
 import {
   Grid,
   GridItem,
-  Image,
   Box,
   Text,
   SimpleGrid,
-  Flex,
-  Center,
   HStack,
   Badge,
   Avatar,
   Button,
   Icon,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverArrow,
 } from "@chakra-ui/react";
 import BookImage from "./BookImage";
 import { FiBook, FiBookOpen, FiInfo, Fi } from "react-icons/fi";
 import { AiFillInfoCircle, AiFillFileText } from "react-icons/ai";
 import { BsBookFill } from "react-icons/bs";
-import Link from "next/link"
+import Link from "next/link";
 const BookInfo = ({ details }) => {
   return (
     <>
@@ -47,7 +50,10 @@ const BookInfo = ({ details }) => {
           bg=""
           p={6}
         >
-          <Text fontWeight="bold" fontSize={{lg:"1.8rem", md:"1.5rem", sm:"1.5rem"}}>
+          <Text
+            fontWeight="bold"
+            fontSize={{ lg: "1.8rem", md: "1.5rem", sm: "1.5rem" }}
+          >
             {details.volumeInfo.title != undefined
               ? details.volumeInfo.title
               : "No Title"}
@@ -55,24 +61,29 @@ const BookInfo = ({ details }) => {
           <Box mt="1%" mb="1%">
             <Box>
               <Badge
-                px="3"
-                borderRadius="full"
-                fontSize={"1.1rem"}
                 colorScheme="purple"
-                isTruncated
+                  variant="subtle"
+                  fontSize="0.7rem"
+                  px={3}
+                  py={1}
+                  borderRadius="full"
+                  textTransform="uppercase"
+                  letterSpacing="wider"
               >
-                {
-                  (details.volumeInfo.categories = undefined
-                    ? details.volumeInfo.categories[0]
-                    : "No Category")
-                }
+                {details.volumeInfo.categories != undefined
+                  ? details.volumeInfo?.categories[0]
+                  : "No Category"}
               </Badge>
               <Badge
-                px="3"
-                borderRadius="full"
-                fontSize={"1.1rem"}
-                ml="1%"
                 colorScheme="pink"
+                  variant="subtle"
+                  fontSize="0.7rem"
+                  px={3}
+                  py={1}
+                  ml="5px"
+                  borderRadius="full"
+                  textTransform="uppercase"
+                  letterSpacing="wider"
               >
                 {details.volumeInfo.publishedDate != undefined
                   ? details.volumeInfo.publishedDate
@@ -99,7 +110,7 @@ const BookInfo = ({ details }) => {
               </HStack>
             </Box>
           </Box>
-          <Box my={{lg:"2%", md:"2%" , sm:"10%"}}>
+          <Box my={{ lg: "2%", md: "2%", sm: "10%" }}>
             <HStack color={"#805ad5"}>
               <Icon
                 mr="1"
@@ -113,20 +124,40 @@ const BookInfo = ({ details }) => {
             </HStack>
             <Text
               textAlign={"justify"}
-              noOfLines={{base:"3", sm:"5"}}
+              noOfLines={{ base: "3", sm: "5" }}
               color={"gray"}
               justifyContent={""}
               width="100%"
-           
             >
               {details.volumeInfo.description != undefined
                 ? details.volumeInfo.description
                 : "No Description Yet"}
-
             </Text>
-            <Text colorScheme={"purple"} color={"#805ad5"} as="u"  >
-              <b>More Description...</b>  
-            </Text>
+            <Popover trigger="hover" placement="top" maxW="300px">
+              <PopoverTrigger>
+                <Text
+                  cursor={"pointer"}
+                  _hover={{ color: "pink.500" }}
+                  colorScheme={"purple"}
+                  color={"#805ad5"}
+                  as="u"
+                >
+                  <b>More Description...</b>
+                </Text>
+              </PopoverTrigger>
+              <PopoverContent
+                w="500px" 
+                maxW="90vw"
+              >
+                <PopoverArrow />
+                <PopoverHeader fontWeight="bold">Description</PopoverHeader>
+                <PopoverBody fontSize="sm" maxH="200px" overflowY="auto">
+                  {details.volumeInfo.description != undefined
+                    ? details.volumeInfo.description
+                    : "No Description Yet"}
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
           </Box>
           <SimpleGrid
             columns={{ base: 2, lg: 2, md: 1, sm: 1 }}

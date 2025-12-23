@@ -1,88 +1,87 @@
 import React from "react";
 import {
-  Text,
   Box,
   Badge,
   Image,
   Center,
   Button,
   Stack,
+  Text,
 } from "@chakra-ui/react";
-import Link from "next/link";
+import NextLink from "next/link"; // Rename import to avoid conflict with Chakra Link
 
 const BookCardCategories = ({ details }) => {
+  // Destructure for cleaner access
+  const { volumeInfo, id } = details;
+  const imageLink = volumeInfo.imageLinks?.thumbnail;
+  const category = volumeInfo.categories?.[0];
+  const author = volumeInfo.authors?.[0];
+
   return (
-    <>
-      <Box
-        textAlign="center"
-        height="400px"
-        maxW="sm"
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        boxShadow="lg"
-        p={"2"}
-      >
-        <Center>
-          {details.volumeInfo.imageLinks != undefined ? (
-            <Image
-              minH={{ base: "229px" }}
-              maxH={{ base: "229px" }}
-              src={details.volumeInfo.imageLinks.thumbnail}
-              alt="alt"
-              rounded="lg"
-              shadow={"lg"}
-            />
-          ) : (
-            <Image
-              minH={{ base: "100px" }}
-              maxH={{ base: "229px" }}
-              padding="4"
-              src="https://www.biotrop.org/images/default-book.png"
-              alt="alt"
-            />
-          )}
-        </Center>
+    <Box
+      textAlign="center"
+      height="400px"
+      maxW="sm"
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+      boxShadow="lg"
+      p={2}
+      display="flex"
+      flexDirection="column"
+      bg="white"
+    >
+      <Center flex={1} mb={2}>
+        <Image
+          src={imageLink}
+          fallbackSrc="https://www.biotrop.org/images/default-book.png"
+          alt={volumeInfo.title || "Book Cover"}
+          maxH="220px"
+          objectFit="contain"
+          rounded="lg"
+          shadow={imageLink ? "lg" : "none"}
+        />
+      </Center>
 
-        <Box p="1">
-          <Stack>
-            <Box alignItems="center">
-              {details.volumeInfo.categories != undefined ? (
-                <Badge borderRadius="full" px="3" colorScheme="red">
-                  {details.volumeInfo.categories[0]}
-                </Badge>
-              ) : (
-                <Badge borderRadius="full" px="3" colorScheme="teal">
-                  No Category
-                </Badge>
-              )}
-            </Box>
+      <Stack spacing={2} align="center" pb={2}>
+        <Badge
+          borderRadius="full"
+          px="3"
+          colorScheme={category ? "red" : "teal"}
+        >
+          {category || "No Category"}
+        </Badge>
 
-            <Box
-              mt="1"
-              fontWeight="semibold"
-              as="h4"
-              lineHeight="tight"
-              noOfLines={{ base: 1, lg: 1, md: 1, sm: 1 }}
-            >
-              {details.volumeInfo.title}
-            </Box>
+        <Text
+          fontWeight="semibold"
+          as="h4"
+          lineHeight="tight"
+          noOfLines={1}
+          px={2}
+        >
+          {volumeInfo.title}
+        </Text>
 
-            {details.volumeInfo.authors != undefined && (
-              <Box>{details.volumeInfo.authors[0]}</Box>
-            )}
+        <Text fontSize="sm" color="gray.600" noOfLines={1}>
+          {author || "Unknown Author"}
+        </Text>
 
-            <Box>
-              <Link href={`/books/details/${details.id}`} passHref>
-                <Button width="80%" rounded="3xl" colorScheme="gray">
-                  Details
-                </Button>
-              </Link>
-            </Box>
-          </Stack>
-        </Box>
-      </Box>
-    </>
+        <Button
+          as={NextLink}
+          href={`/books/details/${id}`}
+          width="80%"
+          rounded="3xl"
+          colorScheme="gray"
+          size="sm"
+          _hover={{
+            textDecoration: "none",
+            bg: "gray.300",
+          }}
+        >
+          Details
+        </Button>
+      </Stack>
+    </Box>
   );
 };
 

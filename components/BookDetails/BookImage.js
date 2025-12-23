@@ -13,17 +13,35 @@ import {
 } from "@chakra-ui/react";
 import { FiHeart, FiBookmark } from "react-icons/fi";
 import { AiFillHeart } from "react-icons/ai";
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { db } from "../../config/firebase";
 import { useAuth } from "../../service/AuthService";
 import { useToast } from "@chakra-ui/react";
+
 const BookImage = ({ details }) => {
   const { currentUser } = useAuth();
-  const toast= useToast()
+  const toast = useToast();
   const router = useRouter();
   const [favourite, setFavourite] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const { volumeInfo} = details;
+  console.log(details);
+  // Image handling logic
+  const highResUrl = volumeInfo.imageLinks?.thumbnail
+    ?.replace("http://", "https://")
+    ?.replace("&edge=curl", "")
+    ?.replace("zoom=1", "zoom=0");
+
+  const safeThumbnail = volumeInfo.imageLinks?.thumbnail;
+  const placeholder = "https://www.biotrop.org/images/default-book.png";
+  const [imgSrc, setImgSrc] = useState(highResUrl || placeholder);
+  
+  useEffect(() => {
+    setImgSrc(highResUrl || placeholder);
+  }, [highResUrl]);
+
   useEffect(() => {
     if (currentUser != null) {
       db.collection("users")
@@ -43,7 +61,7 @@ const BookImage = ({ details }) => {
     } else {
       setFavourite(false);
       setLoading(false);
-    };
+    }
   }, [details]);
 
   const favouriteBook = () => {
@@ -118,13 +136,9 @@ const BookImage = ({ details }) => {
             pos: "absolute",
             top: 5,
             left: 0,
-            backgroundImage:
-              details.volumeInfo.imageLinks != undefined
-                ? `url(${details.volumeInfo.imageLinks.thumbnail})`
-                : "https://www.biotrop.org/images/default-book.png",
+            backgroundImage: `url(${volumeInfo.imageLinks?.thumbnail})`,
             filter: "blur(15px)",
             zIndex: -1,
-            
           }}
           _groupHover={{
             _after: {
@@ -137,9 +151,11 @@ const BookImage = ({ details }) => {
               rounded={"lg"}
               objectFit={""}
               backgroundPosition={"center"}
-              src={details.volumeInfo.imageLinks.thumbnail}
+              src={volumeInfo.imageLinks?.thumbnail}
               alt="https://www.biotrop.org/images/default-book.png"
               mt="20px"
+              height={"230px"}
+              
             />
           </Center>
         </Box>
@@ -186,10 +202,10 @@ const BookImage = ({ details }) => {
 
           <Button
             variant={favourite ? "solid" : "outline"}
-            width="80%"
+            width="90%"
             rounded="3xl"
             colorScheme="purple"
-            mt="100px"
+            mt="50px"
             onClick={favourite === false ? favouriteBook : removeFavourite}
             isLoading={loading ? true : false}
           >
@@ -202,17 +218,21 @@ const BookImage = ({ details }) => {
             {favourite ? "Added To Favourites" : "Favourite"}
           </Button>
 
-          <Link href={`/books/details/${details.id}`} passHref>
-            <Button width="80%" rounded="3xl" colorScheme="gray">
-              <Icon
-                mr="4"
-                fontSize={"16"}
-                _groupHover={{ color: "black" }}
-                as={FiBookmark}
-              ></Icon>
-              Bookshelve
-            </Button>
-          </Link>
+          <Button
+            as={NextLink}
+            href={`/books/details/${details.id}`}
+            width="90%"
+            rounded="3xl"
+            colorScheme="gray"
+          >
+            <Icon
+              mr="4"
+              fontSize={"16"}
+              _groupHover={{ color: "black" }}
+              as={FiBookmark}
+            ></Icon>
+            Bookshelve
+          </Button>
         </Stack>
       </Box>
     </div>

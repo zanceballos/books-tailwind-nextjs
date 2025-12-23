@@ -1,7 +1,22 @@
 export default async function handler({ query: { query } }, res) {
   const data = await fetch(
-    `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=20&orderBy=newest&key=AIzaSyC-123qM3DWjNCd22SXuyaqTXwVW3uswkY&country=SG`
+    `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=20&orderBy=newest&key=${process.env.GOOGLE_BOOKS_API_KEY}&country=SG`
   );
   const json = await data.json();
-  res.status(200).json(json);
+  if (json.items) {
+    json.items = json.items.map((book) => {
+      if (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) {
+        let imageUrl = book.volumeInfo.imageLinks.thumbnail;
+
+       // imageUrl = imageUrl.replace("http:", "https:");
+        //imageUrl = imageUrl.replace("&edge=curl", "");
+        //imageUrl = imageUrl.replace("zoom=1", "zoom=0");
+
+        book.volumeInfo.imageLinks.thumbnail = imageUrl;
+      }
+      return book;
+    });
+
+    res.status(200).json(json);
+  }
 }
