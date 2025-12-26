@@ -38,7 +38,7 @@ const Sidebar = ({ children }) => {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [currentUser]);
 
   return (
     <>
