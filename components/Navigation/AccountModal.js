@@ -39,7 +39,7 @@ const AccountModal = ({
                         Username
                       </Text>
                       <Text fontWeight={"bold"} fontSize="1.2rem">
-                        {userInfo.username}
+                        {userInfo?.username || "N/A"}
                       </Text>
                     </Box>
                     <Box>
@@ -47,7 +47,7 @@ const AccountModal = ({
                         Provider
                       </Text>
                       <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
-                        {userInfo.AuthProvider}
+                        {userInfo?.AuthProvider || "N/A"}
                       </Text>
                     </Box>
                     <Box>
@@ -55,7 +55,7 @@ const AccountModal = ({
                         Role
                       </Text>
                       <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
-                        {userInfo.role}
+                        {userInfo?.role || "Member"}
                       </Text>
                     </Box>
                   </SimpleGrid>
@@ -65,7 +65,7 @@ const AccountModal = ({
                         Email
                       </Text>
                       <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
-                        {userInfo.email}
+                        {userInfo?.email || "N/A"}
                       </Text>
                     </Box>
                     <Box>
@@ -73,7 +73,7 @@ const AccountModal = ({
                         Date Registered
                       </Text>
                       <Text fontWeight={"bold"} fontSize="1.2rem" noOfLines={1}>
-                        {userInfo.dateRegistered}
+                      {userInfo?.dateRegistered || "N/A"}
                       </Text>
                     </Box>
                   </SimpleGrid>
@@ -81,7 +81,7 @@ const AccountModal = ({
               </ModalBody>
   
               <ModalFooter>
-                {userInfo.AuthProvider === "password" && (
+                {userInfo?.AuthProvider === "password" && (
                   <Button onClick={changeUserPassword} variant="ghost">
                     Change Password
                   </Button>

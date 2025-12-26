@@ -18,7 +18,7 @@ const FavIntroCard = () => {
         >
           Your Favourites
         </Text>
-        <Text fontSize="1rem">List of all of your favourite books here!</Text>
+        <Text fontSize="1rem">All of your Favourite Books!</Text>
       </Box>
     </>
   );

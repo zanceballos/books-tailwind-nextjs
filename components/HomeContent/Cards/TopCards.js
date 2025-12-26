@@ -34,7 +34,7 @@ const TopCards = () => {
 
   return (
     <>
-      <SimpleGrid columns={{base:4, lg:4, md:2, sm:2}} minChildWidth="200px" mt={50} spacing="40px">
+      <SimpleGrid columns={{lg:4, md:2, sm:2}} mt={50} spacing="40px">
         {properties.map((property) => (
           <Box
             width="100"

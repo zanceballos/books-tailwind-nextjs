@@ -1,9 +1,11 @@
-import React from 'react'
-
+import React from "react";
+import Bookshelve from "../../../components/Bookshelves/Bookshelve";
 const ShelveContent = () => {
   return (
-    <div>[shelveid]</div>
-  )
-}
+    <>
+      <Bookshelve />
+    </>
+  );
+};
 
-export default ShelveContent
+export default ShelveContent;

@@ -1,19 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { server } from "../../../config/index";
-import {
-  Text,
-  Box,
-  SimpleGrid,
-  Center,
-  useColorModeValue,
-  Heading,
-  Stack,
-  Image,
-} from "@chakra-ui/react";
+import { Text, SimpleGrid, Box } from "@chakra-ui/react";
 import BookCardReleases from "../Cards/BookCardReleases";
 
 const VolumesBooks = ({ header, volumes }) => {
-  console.log(volumes)
   return (
     <div>
       <Text
@@ -23,18 +11,14 @@ const VolumesBooks = ({ header, volumes }) => {
       >
         {header}
       </Text>
-      {volumes !=null && (
-        <SimpleGrid
-          columns={{ base: 6, lg: 6, md: 3, sm: 2 }}
-          minChildWidth={{
-            base: "300px",
-            lg: "300px",
-            md: "170px",
-            sm: "170px",
-          }}
-          spacing="40px"
-        >
-          {volumes.map((book) => <BookCardReleases key={book.id} details={book} />)
+      {volumes != null && (
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} w="full" spacing="40px">
+          {volumes
+            .map((book) => (
+              <Box key={book.id} mx={"auto"} w="full" display={"flex"} justifyContent={"center"}>
+                <BookCardReleases details={book} />
+              </Box>
+            ))
             .slice(0, 6)}
         </SimpleGrid>
       )}

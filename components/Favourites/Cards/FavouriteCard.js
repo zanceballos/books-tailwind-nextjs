@@ -7,26 +7,38 @@ import {
   Flex,
   Badge,
   Button,
-  Center
+  Center,
+  VStack,
+  Heading,
+  HStack,
+  Stack,
 } from "@chakra-ui/react";
-import Link from "next/link";
+import NextLink from "next/link";
 const FavouriteCard = ({ book, remove }) => {
+  const rawDescription = book.volumeInfo.description || "No description available.";
+
+  const cleanDescription = rawDescription.replace(/<[^>]+>/g, "");
   return (
     <>
       <>
         <Box
-          boxShadow={"lg"}
-          rounded="lg"
-          maxWidth={"100%"}
-          mt={{ base: "1%", lg: "1%", md: "1%", sm: "1%" }}
+          borderWidth="1px"
+          borderRadius="xl"
+          bg="white"
+          boxShadow="md"
+          overflow="hidden"
+          p={{ base: 4, md: 6 }}
+          mt={4}
         >
           <Box p={"3"}>
-            <Flex>
+            <Flex direction={{ base: "column", md: "row" }} gap={6}>
               <Box
+                flexShrink={0}
+                mx={{ base: "auto", md: 0 }}
+                width={{ base: "180px", md: "200px" }}
                 rounded={"lg"}
                 pos={"relative"}
                 height={"200px"}
-                width="50%"
                 _after={{
                   transition: "all .3s ease",
                   content: '""',
@@ -48,68 +60,74 @@ const FavouriteCard = ({ book, remove }) => {
                   },
                 }}
               >
-                <Center>
-                  <Image
-                    alt="alt"
-                    src={
-                      book.volumeInfo.imageLinks != undefined
-                        ? book.volumeInfo.imageLinks.thumbnail
-                        : "https://www.biotrop.org/images/default-book.png"
-                    }
-                    shadow="2xl"
-                    rounded={"lg"}
-                    border="0.5px"
-                  />
-                </Center>
+                <Image
+                  src={book.volumeInfo.imageLinks.thumbnail}
+                  alt={`Cover of ${book.volumeInfo.title}`}
+                  borderRadius="lg"
+                  boxShadow="2xl"
+                  objectFit="cover"
+                  width="100%"
+                  height="auto"
+                  fallbackSrc="https://www.biotrop.org/images/default-book.png"
+                />
               </Box>
 
-              <Box p={"5"} width="100%">
-                <Text fontSize={"1rem"} fontWeight="bold" noOfLines={1}>
-                  {book.volumeInfo.title != undefined
-                    ? book.volumeInfo.title
-                    : "No title"}
-                </Text>
-                <Text
-                  fontSize={"0.8rem"}
-                  fontWeight="bold"
-                  color={"gray"}
-                  noOfLines={1}
+              <VStack align="start" spacing={3} flex={1} w="full">
+                {/* Title and Author */}
+                <Box>
+                  <Heading size="lg" lineHeight="tight">
+                    {book.volumeInfo.title}
+                  </Heading>
+                  <Text color="gray.600" fontWeight="medium" mt={1}>
+                    by{" "}
+                    {book.volumeInfo.authors
+                      ? book.volumeInfo.authors[0]
+                      : "Unknown"}
+                  </Text>
+                </Box>
+
+                <HStack spacing={1} align="center">
+                  <Text color="yellow.400" fontSize="lg">
+                    ★★★★☆
+                  </Text>
+                  <Text fontSize="sm" color="gray.500" fontWeight="bold" ml={2}>
+                    4.5/5
+                  </Text>
+                </HStack>
+
+                <Badge
+                  colorScheme="purple"
+                  variant="subtle"
+                  fontSize="0.7rem"
+                  px={3}
+                  py={1}
+                  borderRadius="full"
+                  textTransform="uppercase"
+                  letterSpacing="wider"
                 >
-                  by{" "}
-                  {book.volumeInfo.authors != null
-                    ? book.volumeInfo.authors[0]
-                    : "No authors"}
-                </Text>
-                <Badge colorScheme={"purple"} rounded="full" mx="2px" my="2px">
-                  {book.volumeInfo.categories != undefined
+                  {book.volumeInfo.categories
                     ? book.volumeInfo.categories[0]
-                    : "No Category"}
+                    : "Uncategorized"}
                 </Badge>
 
                 <Text
-                  fontSize={"0.8rem"}
-                  fontWeight="bold"
-                  color={"gray"}
-                  noOfLines={1}
-                  mt="2"
+                  fontSize="sm"
+                  color="gray.700"
+                  noOfLines={{ base: 3, md: 4 }}
                 >
-                  {book.volumeInfo.publisher != undefined
-                    ? book.volumeInfo.publisher
-                    : "No Publisher"}{" "}
-                  (
-                  {book.volumeInfo.publishedDate != undefined
-                    ? book.volumeInfo.publishedDate
-                    : "No Publisher"}
-                  )
+                  {cleanDescription}
                 </Text>
 
-                <Box pt="10px">
-                  <Link href={`/books/details/${book.id}`} passHref>
-                    <Button colorScheme={"gray"} mr="5px">
-                      Details
-                    </Button>
-                  </Link>
-
+                {/* Buttons located at the bottom */}
+                <Stack direction="row" spacing={4} w="full" pt={4} mt="auto">
+                  <Button
+                    as={NextLink}
+                    href={`/books/details/${book.id}`}
+                    colorScheme={"gray"}
+                    mr="5px"
+                  >
+                    Details
+                  </Button>
                   <Button
                     onClick={() => remove(book.id)}
                     bgColor={"red.500"}
@@ -117,8 +135,8 @@ const FavouriteCard = ({ book, remove }) => {
                   >
                     Remove
                   </Button>
-                </Box>
-              </Box>
+                </Stack>
+              </VStack>
             </Flex>
           </Box>
         </Box>

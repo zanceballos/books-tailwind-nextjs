@@ -10,20 +10,44 @@ import {
   Stack,
   Image,
   Icon,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { FiHeart, FiBookmark } from "react-icons/fi";
 import { AiFillHeart } from "react-icons/ai";
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { db } from "../../config/firebase";
 import { useAuth } from "../../service/AuthService";
 import { useToast } from "@chakra-ui/react";
+import AddToShelveModal from "./AddToShelveModal";
+
 const BookImage = ({ details }) => {
   const { currentUser } = useAuth();
-  const toast= useToast()
+  const toast = useToast();
   const router = useRouter();
   const [favourite, setFavourite] = useState(false);
+  const [shelfs, setShelfList] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { volumeInfo } = details;
+
+  //Modal States
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Image handling logic
+  const highResUrl = volumeInfo.imageLinks?.thumbnail
+    ?.replace("http://", "https://")
+    ?.replace("&edge=curl", "")
+    ?.replace("zoom=1", "zoom=0");
+
+  const safeThumbnail = volumeInfo.imageLinks?.thumbnail;
+  const placeholder = "https://www.biotrop.org/images/default-book.png";
+  const [imgSrc, setImgSrc] = useState(highResUrl || placeholder);
+
+  useEffect(() => {
+    setImgSrc(highResUrl || placeholder);
+  }, [highResUrl]);
+
   useEffect(() => {
     if (currentUser != null) {
       db.collection("users")
@@ -34,16 +58,31 @@ const BookImage = ({ details }) => {
         .then((results) => {
           if (results.size > 0) {
             setFavourite(true);
-            setLoading(false);
           } else {
             setFavourite(false);
-            setLoading(false);
           }
+        })
+        .then(() => {
+          db.collection("users")
+            .doc(currentUser.uid)
+            .collection("bookshelves")
+            .get()
+            .then((results) => {
+              let shelves = [];
+              results.forEach((doc) => {
+                shelves.push({ id: doc.id, ...doc.data() });
+              });
+              setShelfList(shelves);
+              
+            })
+            .finally(() => {
+              setLoading(false);
+            });
         });
     } else {
       setFavourite(false);
       setLoading(false);
-    };
+    }
   }, [details]);
 
   const favouriteBook = () => {
@@ -52,7 +91,17 @@ const BookImage = ({ details }) => {
       db.collection("users")
         .doc(currentUser.uid)
         .collection("favourites")
-        .add(details);
+        .add(details)
+        .then(() => {
+          toast({
+            title: "Added to Favourites!",
+            description: "Book has been added to your favourites.",
+            status: "success",
+            duration: 4000,
+            isClosable: true,
+            position: "top",
+          });
+        });
     } else {
       toast({
         title: "Please Login!",
@@ -62,7 +111,6 @@ const BookImage = ({ details }) => {
         isClosable: true,
         position: "top",
       });
-      router.replace("/account/login");
     }
   };
 
@@ -78,6 +126,14 @@ const BookImage = ({ details }) => {
           results.forEach((docs) => {
             docs.ref.delete();
           });
+          toast({
+            title: "Removed from Favourites!",
+            description: "Book has been removed from your favourites.",
+            status: "warning",
+            duration: 4000,
+            isClosable: true,
+            position: "top",
+          });
         });
     } else {
       toast({
@@ -88,9 +144,46 @@ const BookImage = ({ details }) => {
         isClosable: true,
         position: "top",
       });
-      router.replace("/account/login");
     }
   };
+
+  const addToBookshelve = () => {
+    if (currentUser != null) {
+      onOpen();
+    } else {
+      toast({
+        title: "Please Login!",
+        description: "You need an account to perform this action!",
+        status: "info",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+
+  const addBookToShelf = (shelfId) => {
+    onClose();
+    if (currentUser != null) {
+      db.collection("users")
+        .doc(currentUser.uid)
+        .collection("bookshelves")
+        .doc(shelfId)
+        .collection("books")
+        .add(details)
+        .then(() => {
+          toast({
+            title: "Book Added to Bookshelve!",
+            description: "Book has been added to your bookshelve.",
+            status: "success",
+            duration: 4000,
+            isClosable: true,
+            position: "top",
+          });
+
+        });
+    }
+  }
 
   return (
     <div>
@@ -118,13 +211,9 @@ const BookImage = ({ details }) => {
             pos: "absolute",
             top: 5,
             left: 0,
-            backgroundImage:
-              details.volumeInfo.imageLinks != undefined
-                ? `url(${details.volumeInfo.imageLinks.thumbnail})`
-                : "https://www.biotrop.org/images/default-book.png",
+            backgroundImage: `url(${volumeInfo.imageLinks?.thumbnail})`,
             filter: "blur(15px)",
             zIndex: -1,
-            
           }}
           _groupHover={{
             _after: {
@@ -137,9 +226,10 @@ const BookImage = ({ details }) => {
               rounded={"lg"}
               objectFit={""}
               backgroundPosition={"center"}
-              src={details.volumeInfo.imageLinks.thumbnail}
+              src={volumeInfo.imageLinks?.thumbnail}
               alt="https://www.biotrop.org/images/default-book.png"
               mt="20px"
+              height={"230px"}
             />
           </Center>
         </Box>
@@ -186,10 +276,10 @@ const BookImage = ({ details }) => {
 
           <Button
             variant={favourite ? "solid" : "outline"}
-            width="80%"
+            width="90%"
             rounded="3xl"
             colorScheme="purple"
-            mt="100px"
+            mt="50px"
             onClick={favourite === false ? favouriteBook : removeFavourite}
             isLoading={loading ? true : false}
           >
@@ -202,19 +292,32 @@ const BookImage = ({ details }) => {
             {favourite ? "Added To Favourites" : "Favourite"}
           </Button>
 
-          <Link href={`/books/details/${details.id}`} passHref>
-            <Button width="80%" rounded="3xl" colorScheme="gray">
-              <Icon
-                mr="4"
-                fontSize={"16"}
-                _groupHover={{ color: "black" }}
-                as={FiBookmark}
-              ></Icon>
-              Bookshelve
-            </Button>
-          </Link>
+          <Button
+            variant="solid"
+            width="90%"
+            rounded="3xl"
+            colorScheme="gray"
+            isLoading={loading ? true : false}
+            onClick={addToBookshelve}
+          >
+            <Icon
+              mr="4"
+              fontSize={"16"}
+              _groupHover={{ color: "black" }}
+              as={FiBookmark}
+            ></Icon>
+            Add to Bookshelve
+          </Button>
         </Stack>
       </Box>
+      <AddToShelveModal
+        shelfs={shelfs}
+        isOpen={isOpen}
+        onClose={onClose}
+        bookDetails={details}
+        addBookToShelf={addBookToShelf}
+        
+      />
     </div>
   );
 };

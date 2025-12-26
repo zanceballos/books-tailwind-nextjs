@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FavouriteCard from "../Cards/FavouriteCard";
 import { db } from "../../../config/firebase";
 import { useAuth } from "../../../service/AuthService";
-import Link from "next/link";
+import NextLink from "next/link";
 import { GridItem, useToast } from "@chakra-ui/react";
 import {
   Box,
@@ -23,7 +23,6 @@ const FavouriteLists = () => {
   useEffect(() => {
     // Load the list
     async function getFavourites() {
-      console.log("Running the call");
       setIsLoaded(true);
       await db
         .collection("users")
@@ -31,15 +30,12 @@ const FavouriteLists = () => {
         .collection("favourites")
         .get()
         .then((results) => {
-          console.log("Inside for loop");
           results.docs.forEach((item) => {
             setList((list) => [...list, item.data()]);
           });
         })
         .then(() => {
-          console.log("Finished!");
           setLoading(false);
-          console.log(list);
         });
     }
     if (!isLoaded) {
@@ -95,7 +91,7 @@ const FavouriteLists = () => {
             </Text>
           </Box>
           <SimpleGrid
-            columns={{ base: 4, lg: 4, md: 4, sm: 2, xs: 2 }}
+            columns={{ base: 2, lg: 2, md: 6, sm: 2, xs: 2 }}
             minChildWidth={{
               lg: "200px",
               md: "200px",
@@ -105,8 +101,7 @@ const FavouriteLists = () => {
           >
             <BookInfoSmallSkeleton />
             <BookInfoSmallSkeleton />
-            <BookInfoSmallSkeleton />
-            <BookInfoSmallSkeleton />
+            
           </SimpleGrid>
         </>
       ) : (
@@ -139,13 +134,13 @@ const FavouriteLists = () => {
                   List of all of your favourite books here!
                 </Text>
               </Box>
-              <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+              <SimpleGrid columns={{ base: 1, lg: 2 }} gap={6}>
                 {list.map((book) => (
                   <GridItem key={book.id} colSpan={{ lg: 1, md: 3, sm: 3 }}>
                     <FavouriteCard book={book} remove={removeFromFavourites} />
                   </GridItem>
                 ))}
-              </Grid>
+              </SimpleGrid>
             </>
           )}
         </>
@@ -177,19 +172,20 @@ const Empty = () => {
         <Text fontWeight={"bold"} color="gray" fontSize="1rem">
           Your Favourites List is Empty!
         </Text>
-        <Link href="/" passHref>
-          <Button
-            mt="1%"
-            width={"200px"}
-            height="60px"
-            rounded={"full"}
-            shadow="lg"
-            colorScheme={"purple"}
-          >
-            {" "}
-            Explore Books{" "}
-          </Button>
-        </Link>
+
+        <Button
+          as={NextLink}
+          href="/"
+          mt="1%"
+          width={"200px"}
+          height="60px"
+          rounded={"full"}
+          shadow="lg"
+          colorScheme={"purple"}
+        >
+          {" "}
+          Explore Books{" "}
+        </Button>
       </Box>
     </>
   );

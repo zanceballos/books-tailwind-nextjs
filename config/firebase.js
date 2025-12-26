@@ -1,14 +1,16 @@
-// Import the functions you need from the SDKs you need
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
 
 // Your web app's Firebase configuration
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBtjWxnIHYlKKbO3c3EyNP3fu3nf7ARLCI",
-  authDomain: "bookify-nextjs.firebaseapp.com",
-  projectId: "bookify-nextjs",
-  storageBucket: "bookify-nextjs.appspot.com",
-  messagingSenderId: "299741871977",
-  appId: "1:299741871977:web:ca2cb358bfb59a9632c7f8",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 if (!firebase.apps.length) {
@@ -16,8 +18,8 @@ if (!firebase.apps.length) {
 }
 
 // Initialize Firebase
-const auth = firebase.app().auth();
-const db = firebase.app().firestore();
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 //google sign in function
 const googleProvider = new firebase.auth.GoogleAuthProvider();

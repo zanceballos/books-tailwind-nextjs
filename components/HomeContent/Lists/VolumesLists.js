@@ -12,51 +12,36 @@ const VolumesLists = ({ header, pageid, query }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(server)
-    //Call the api and set te state
+    //Call the api and set the state
     const getVolumesfromURl = async () => {
-     
-      const res = await fetch(
-        `${server}/api/books/volumes/${query}`
-      );
+      const res = await fetch(`${server}/api/books/volumes/${query}`);
+
       const volumes = await res.json();
+      if (volumes) {
+        setVolumes(volumes.items);
+        setLoading(false);
+      }
       return volumes;
     };
 
-    getVolumesfromURl().then((data) => {
-      setTimeout(() => {
-        setVolumes(data.items);
-        setLoading(false);
-      }, 2800);
-    });
-  }, []);
+    getVolumesfromURl();
+  }, [query]);
+
+  if (loading) {
+    return (
+      <SimpleGrid columns={{ base: 2, md: 2 }} spacing="10" mt="4">
+        {[...Array(2)].map((_, i) => (
+          <BookInfoSmallSkeleton key={i} />
+        ))}
+      </SimpleGrid>
+    );
+  }
 
   return (
     <>
-      {!loading ? (
-        <div id={pageid}>
-          {volumes != null && (
-            <VolumesBooks volumes={volumes} header={header} />
-          )}
-        </div>
-      ) : (
-        <>
-          <SimpleGrid
-            columns={{ base: 2, lg: 2, md: 2, sm: 2, xs: 2 }}
-            minChildWidth={{
-              base: "200px",
-              lg: "200px",
-              md: "220px",
-              sm: "200px",
-            }}
-            spacing="10"
-          >
-            <BookInfoSmallSkeleton />
-            <BookInfoSmallSkeleton />
-          
-          </SimpleGrid>
-        </>
-      )}
+      <div id={pageid}>
+        {volumes != null && <VolumesBooks volumes={volumes} header={header} />}
+      </div>
     </>
   );
 };

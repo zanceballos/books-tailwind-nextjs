@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -11,9 +11,6 @@ import {
 import Link from "next/link";
 
 const BookCardRec = ({ book }) => {
-
-
-  
   return (
     <>
       <Box
@@ -80,7 +77,16 @@ const BookCardRec = ({ book }) => {
                   ? book.volumeInfo.authors[0]
                   : "No authors"}
               </Text>
-              <Badge colorScheme={"purple"} rounded="full" mx="2px" my="2px">
+              <Badge
+                colorScheme="purple"
+                variant="subtle"
+                fontSize="0.7rem"
+                px={3}
+                py={1}
+                borderRadius="full"
+                textTransform="uppercase"
+                letterSpacing="wider"
+              >
                 {book.volumeInfo.categories != undefined
                   ? book.volumeInfo.categories[0]
                   : "No Category"}
