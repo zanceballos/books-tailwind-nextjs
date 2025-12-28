@@ -20,53 +20,6 @@ a {
   background-color: antiquewhite !important;
 }
 
-.categories:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-}
-
-.categories:nth-child(1) {
-  background-color: #d0d0d0;
-  background-image: url("/top-card-img-1.png");
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.categories:nth-child(2) {
-  background-color: #d0d0d0;
-  background-image: url("/top-card-img-2.jpg");
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.categories:nth-child(3) {
-  background-color: #d0d0d0;
-  background-image: url("/top-card-img-3.jpg");
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.categories:nth-child(4) {
-  background-color: #d0d0d0;
-  background-image: url("/top-card-img-5.jpg");
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .column-category:nth-child(1) {
   background-image: url("https://wallpaper.dog/large/10994337.png");

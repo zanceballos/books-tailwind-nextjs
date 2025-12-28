@@ -20,6 +20,8 @@ import { db } from "../../config/firebase";
 import { useAuth } from "../../service/AuthService";
 import { useToast } from "@chakra-ui/react";
 import AddToShelveModal from "./AddToShelveModal";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 const BookImage = ({ details }) => {
   const { currentUser } = useAuth();
@@ -73,7 +75,6 @@ const BookImage = ({ details }) => {
                 shelves.push({ id: doc.id, ...doc.data() });
               });
               setShelfList(shelves);
-              
             })
             .finally(() => {
               setLoading(false);
@@ -91,7 +92,7 @@ const BookImage = ({ details }) => {
       db.collection("users")
         .doc(currentUser.uid)
         .collection("favourites")
-        .add(details)
+        .add({ ...details, addedAt: new Date() })
         .then(() => {
           toast({
             title: "Added to Favourites!",
@@ -162,28 +163,57 @@ const BookImage = ({ details }) => {
     }
   };
 
-  const addBookToShelf = (shelfId) => {
+  const addBookToShelf = async (shelfId) => {
     onClose();
+
     if (currentUser != null) {
-      db.collection("users")
+      const batch = db.batch();
+
+      const newBookRef = db
+        .collection("users")
         .doc(currentUser.uid)
         .collection("bookshelves")
         .doc(shelfId)
         .collection("books")
-        .add(details)
-        .then(() => {
-          toast({
-            title: "Book Added to Bookshelve!",
-            description: "Book has been added to your bookshelve.",
+        .doc();
+
+      const shelfRef = db
+        .collection("users")
+        .doc(currentUser.uid)
+        .collection("bookshelves")
+        .doc(shelfId);
+
+      batch.set(newBookRef, { ...details, addedAt: new Date() });
+
+      // Increment the counter
+      batch.update(shelfRef, {
+        bookCount: firebase.firestore.FieldValue.increment(1),
+      });
+
+      try {
+        await batch.commit().then(() => {
+           toast({
+            title: `Added to Bookshelve!`,
+            description: "Book has been added to your Bookshelve!.",
             status: "success",
             duration: 4000,
             isClosable: true,
             position: "top",
           });
-
         });
+      } catch (error) {
+        console.error("Error adding book:", error);
+        toast({
+          title: "Error",
+          description: "Could not add book to shelf.",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
+      }
     }
-  }
+  };
 
   return (
     <div>
@@ -316,7 +346,6 @@ const BookImage = ({ details }) => {
         onClose={onClose}
         bookDetails={details}
         addBookToShelf={addBookToShelf}
-        
       />
     </div>
   );
