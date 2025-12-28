@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 import { Box, SimpleGrid, Center, Link, VStack, Text } from "@chakra-ui/react";
+import { FaChessKing, FaGhost, FaHeart, FaSpaceShuttle } from "react-icons/fa";
 const TopCards = () => {
   const [properties, setProperties] = useState([]);
   useEffect(() => {
     setProperties([
-      { id: 1, title: "Fantasy", pageid: "#fantasy" , color: "#ea9ab2"},
-      { id: 2, title: "Sci-Fi", pageid: "#science-fiction", color: "#efcfe3" },
-      { id: 3, title: "Thriller", pageid: "#thriller", color: "#c8b6ff" },
-      { id: 4, title: "Romance", pageid: "#romance", color: "#e27396" },
+      { id: 1, title: "Fantasy", pageid: "#fantasy" , color: "#95b8d1", icon: <FaChessKing />},
+      { id: 2, title: "Sci-Fi", pageid: "#science-fiction", color: "#9381ff", icon: <FaSpaceShuttle />},
+      { id: 3, title: "Thriller", pageid: "#thriller", color: "#c8b6ff", icon: <FaGhost /> },
+      { id: 4, title: "Romance", pageid: "#romance", color: "#e27396", icon: <FaHeart />},
     ]);
   }, []);
 
@@ -54,13 +55,14 @@ const Cards = ({ property }) => {
       >
         <Box
           position="absolute"
-          top="-20px"
-          right="-20px"
-          h="100px"
-          w="100px"
-          bg="whiteAlpha.400"
+          top="15"
+          right="-10"
+          fontSize={"10rem"}
           borderRadius="full"
-        />
+          color="whiteAlpha.400"
+        >
+          {property.icon}
+        </Box>
 
         <Center h="100%">
           <VStack spacing={1}>
