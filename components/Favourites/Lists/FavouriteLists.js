@@ -12,7 +12,12 @@ import {
   Text,
   Button,
   Grid,
+  Flex,
+  Icon,
+  useColorModeValue,
 } from "@chakra-ui/react";
+import { FaBookOpen } from "react-icons/fa";
+FaBookOpen
 const FavouriteLists = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -101,7 +106,6 @@ const FavouriteLists = () => {
           >
             <BookInfoSmallSkeleton />
             <BookInfoSmallSkeleton />
-            
           </SimpleGrid>
         </>
       ) : (
@@ -165,11 +169,18 @@ const BookInfoSmallSkeleton = () => {
 const Empty = () => {
   return (
     <>
-      <Box textAlign={"center"} mt="10%">
-        <Text fontWeight={"bold"} fontSize="2rem">
-          Your Favourites List is Empty!
-        </Text>
-        <Text fontWeight={"bold"} color="gray" fontSize="1rem">
+      <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        h="300px"
+        border="2px dashed"
+        borderColor={useColorModeValue("gray.300", "gray.600")}
+        rounded="lg"
+        bg={useColorModeValue("gray.50", "gray.800")}
+      >
+        <Icon as={FaBookOpen} boxSize={12} color="gray.400" mb={4} />
+        <Text fontSize="lg" color="gray.500">
           Your Favourites List is Empty!
         </Text>
 
@@ -186,7 +197,8 @@ const Empty = () => {
           {" "}
           Explore Books{" "}
         </Button>
-      </Box>
+      </Flex>
+      
     </>
   );
 };

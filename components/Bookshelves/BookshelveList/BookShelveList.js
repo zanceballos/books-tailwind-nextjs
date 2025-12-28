@@ -26,23 +26,48 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { FaBook, FaEdit, FaTrash, FaChevronRight } from "react-icons/fa";
+import {
+  FaBook,
+  FaEdit,
+  FaTrash,
+  FaChevronRight,
+  FaBookReader,
+  FaPlusCircle,
+} from "react-icons/fa";
 import NextLink from "next/link";
 import FavouriteBoxList from "../FavouriteBoxList";
 import AddBookshelfModal from "../AddBookshelfModal";
+import EditBookshelfModal from "../EditBookshelfModal";
 const BookShelveList = () => {
   // Declare the states
   const [favlist, setFavList] = useState([]);
   const [shelfList, setShelfList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [selectedShelf, setSelectedShelf] = useState(null);
+
+  //Current Usser
   const { currentUser } = useAuth();
 
+  //Colors
+  const emptyBorderColor = useColorModeValue("gray.300", "gray.600");
+  const emptyBg = useColorModeValue("gray.50", "gray.800");
+
   //Modal States
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isAddOpen,
+    onOpen: onAddOpen,
+    onClose: onAddClose,
+  } = useDisclosure();
+
+  // Modal B: Edit Shelf
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
   const toast = useToast();
 
-  const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
   useEffect(() => {
@@ -63,7 +88,6 @@ const BookShelveList = () => {
         })
         .then(() => {
           setLoading(false);
-          console.log("Bookshelve list loaded");
         });
     }
 
@@ -87,13 +111,13 @@ const BookShelveList = () => {
       getFavourites();
       getBookshelveList();
     }
-  }, []);
+  }, [favlist, BookShelveList]);
 
-  function addBookshelve() {
+  function addBookshelve(name, desc) {
     //setIsLoaded(true);
 
     // Function to add a new bookshelve to Firestore
-    if (!initialRef.current || initialRef.current.value.trim() === "") {
+    if (name.length === 0 || desc.length === 0) {
       toast({
         title: "Add Bookshelve Failed",
         description: "Bookshelve name cannot be empty.",
@@ -104,12 +128,14 @@ const BookShelveList = () => {
       return; // Do not add if the input is empty
     }
     console.log("Add Bookshelve function called");
-    const nameBookshelve = initialRef.current.value;
+    const nameBookshelve = name;
     db.collection("users")
       .doc(currentUser.uid)
       .collection("bookshelves")
       .add({
-        name: initialRef.current.value,
+        coverImage: "default",
+        name: nameBookshelve,
+        desc: desc,
         createdAt: new Date(),
         bookCount: 0,
         previewImages: [],
@@ -119,7 +145,9 @@ const BookShelveList = () => {
           ...shelfList,
           {
             id: data.id,
+            coverImage: "default",
             name: nameBookshelve,
+            desc: desc,
             createdAt: new Date(),
             bookCount: 0,
             previewImages: [],
@@ -158,6 +186,39 @@ const BookShelveList = () => {
       });
   }
 
+  const handleEditClick = (shelf) => {
+    setSelectedShelf(shelf);
+    onEditOpen();
+  };
+
+  const updateBookshelve = async (shelfId, updatedData) => {
+    try {
+      // Update Firestore
+      await db
+        .collection("users")
+        .doc(currentUser.uid)
+        .collection("bookshelves")
+        .doc(shelfId)
+        .update(updatedData)
+        .then(() => {
+          setShelfList((prevList) =>
+            prevList.map((shelf) =>
+              shelf.id === shelfId ? { ...shelf, ...updatedData } : shelf
+            )
+          );
+        });
+
+      toast({
+        title: "Shelf Updated",
+        status: "success",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.log(error);
+      toast({ title: "Error updating shelf", status: "error" });
+    }
+  };
+
   return (
     <>
       {loading === true ? (
@@ -185,13 +246,15 @@ const BookShelveList = () => {
             <Spacer />
             <Box>
               <Button
-                ml={4}
-                bg="blackAlpha.800"
+                m={"20px"}
+                bgColor={"black"}
                 color={"white"}
+                rounded="full"
                 size={{ base: "md", lg: "md", md: "sm", sm: "sm" }}
-                onClick={onOpen}
+                onClick={onAddOpen}
+                leftIcon={<FaPlusCircle />}
               >
-                Create New Shelf
+                Create Shelve
               </Button>
             </Box>
           </Flex>
@@ -209,31 +272,44 @@ const BookShelveList = () => {
               Bookshelves
             </Heading>
             {!loading && shelfList.length === 0 ? (
-              <Box textAlign={"center"}>
-                <Text
-                  fontWeight={"bold"}
-                  color="gray"
-                  fontSize="1.5rem"
-                  mt={"7%"}
-                  mb="20px"
-                  textTransform={"capitalize"}
-                >
-                  No bookshelves added yet...
+              <Flex
+                direction="column"
+                align="center"
+                justify="center"
+                h="300px"
+                border="2px dashed"
+                borderColor={emptyBorderColor}
+                rounded="lg"
+                bg={emptyBg}
+              >
+                <Icon as={FaBookReader} boxSize={12} color="gray.400" mb={4} />
+                <Text fontSize="lg" color="gray.500">
+                  No Bookshelves! Start adding one!
                 </Text>
-              </Box>
+                {BookShelveList.length === 0 && (
+                  <Button
+                    m={"20px"}
+                    bgColor={"black"}
+                    color={"white"}
+                    rounded="full"
+                    size={{ base: "md", lg: "md", md: "sm", sm: "sm" }}
+                    onClick={onAddOpen}
+                    leftIcon={<FaPlusCircle />}
+                  >
+                    Create Shelve
+                  </Button>
+                )}
+              </Flex>
             ) : (
               <div>
-                {shelfList.length === 0 ? (
-                  <Text color="gray.500">
-                    No bookshelves found. Create one to get started!
-                  </Text>
-                ) : (
+                {shelfList.length !== 0 && (
                   <VStack spacing={4} align="stretch">
                     {shelfList.map((shelf) => (
                       <ShelfRow
                         deleteBookshelve={deleteBookshelve}
                         key={shelf.id}
                         shelf={shelf}
+                        onEdit={() => handleEditClick(shelf)}
                       />
                     ))}
                   </VStack>
@@ -242,12 +318,17 @@ const BookShelveList = () => {
             )}
           </Box>
           <AddBookshelfModal
-            initialRef={initialRef}
-            finalRef={finalRef}
-            isOpen={isOpen}
-            onOpen={onOpen}
-            onClose={onClose}
+            isOpen={isAddOpen}
+            onOpen={onAddOpen}
+            onClose={onAddClose}
             addBookshelve={addBookshelve}
+          />
+          <EditBookshelfModal
+            isOpen={isEditOpen}
+            onOpen={onEditOpen}
+            onClose={onEditClose}
+            updateBookshelve={updateBookshelve}
+            currentShelf={selectedShelf}
           />
         </>
       )}
@@ -255,7 +336,7 @@ const BookShelveList = () => {
   );
 };
 
-const ShelfRow = ({ shelf, deleteBookshelve }) => {
+const ShelfRow = ({ shelf, deleteBookshelve, onEdit }) => {
   // Design Hooks
   const bg = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.100", "gray.700");
@@ -327,7 +408,7 @@ const ShelfRow = ({ shelf, deleteBookshelve }) => {
           </VStack>
 
           <Text fontSize="xs" fontWeight="light" color="gray.600" mt="2px">
-           Added on: {formatDate(shelf.createdAt)}
+            Added on: {formatDate(shelf.createdAt)}
           </Text>
           {shelf.previewImages && (
             <Box display={{ base: "none", md: "block" }} ml={4}>
@@ -360,8 +441,9 @@ const ShelfRow = ({ shelf, deleteBookshelve }) => {
                 colorScheme="blue"
                 aria-label="Edit"
                 onClick={(e) => {
+                  e.preventDefault();
                   e.stopPropagation();
-                  console.log("Edit clicked for", shelf.id);
+                  onEdit();
                 }}
               />
             </Tooltip>
@@ -373,6 +455,8 @@ const ShelfRow = ({ shelf, deleteBookshelve }) => {
                 colorScheme="red"
                 aria-label="Delete"
                 onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   console.log("Delete clicked for", shelf.id);
                   deleteBookshelve(shelf.id, shelf.name);
                 }}

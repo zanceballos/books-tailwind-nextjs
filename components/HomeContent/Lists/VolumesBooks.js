@@ -12,10 +12,16 @@ const VolumesBooks = ({ header, volumes }) => {
         {header}
       </Text>
       {volumes != null && (
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} w="full" spacing="40px">
+        <SimpleGrid columns={{ base: 1, md: 3, "2xl": 6 }} w="full" spacing="40px">
           {volumes
             .map((book) => (
-              <Box key={book.id} mx={"auto"} w="full" display={"flex"} justifyContent={"center"}>
+              <Box
+                key={book.id}
+                mx={"auto"}
+                w="full"
+                display={"flex"}
+                justifyContent={"center"}
+              >
                 <BookCardReleases details={book} />
               </Box>
             ))

@@ -1,11 +1,24 @@
-import {Box, Heading, Text, Flex, Spacer, Button, VStack, Image, useColorModeValue} from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Text,
+  Flex,
+  Spacer,
+  Button,
+  VStack,
+  Image,
+  useColorModeValue,
+  Icon,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
+import { FaBookOpen } from "react-icons/fa";
 
 const FavouriteBoxList = ({ favourites }) => {
   const woodLight = "#eebb88";
   const woodDark = "#a06842";
   const shadowColor = useColorModeValue("rgba(0,0,0,0.3)", "rgba(0,0,0,0.8)");
-
+  const emptyBorderColor = useColorModeValue("gray.300", "gray.600");
+  const emptyBg = useColorModeValue("gray.50", "gray.800");
   return (
     <Box mt="5px" mb={"10px"}>
       <Heading
@@ -20,17 +33,34 @@ const FavouriteBoxList = ({ favourites }) => {
 
       {/* Map through favourite books and display them here */}
       {favourites.length === 0 && (
-        <Box textAlign={"center"}>
-          <Text
-            fontWeight={"bold"}
-            color="gray"
-            fontSize="1rem"
-            mb="20px"
-            textTransform={"capitalize"}
-          >
-            No favourites added yet...
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          h="200px"
+          border="2px dashed"
+          borderColor={emptyBorderColor}
+          rounded="lg"
+          bg={emptyBg}
+          mb="2%"
+        >
+          <Icon as={FaBookOpen} boxSize={12} color="gray.400" mb={4} />
+          <Text fontSize="lg" color="gray.500">
+            Your Favourites List is Empty!
           </Text>
-        </Box>
+
+          <Button
+            as={NextLink}
+            href="/"
+            mt="1%"
+            size="md"
+            shadow="lg"
+            colorScheme={"purple"}
+          >
+            {" "}
+            Explore Books{" "}
+          </Button>
+        </Flex>
       )}
 
       <Box position="relative" w="full">
@@ -94,7 +124,6 @@ const FavouriteBoxList = ({ favourites }) => {
           position="relative"
           zIndex={1}
           _after={{
-          
             content: '""',
             position: "absolute",
             top: "100%",
