@@ -50,6 +50,8 @@ const Bookshelve = () => {
   const tableBg = useColorModeValue("white", "gray.900");
   const textColor = useColorModeValue("gray.600", "gray.400");
   const borderColor = useColorModeValue("gray.100", "gray.700");
+  const emptyBorderColor = useColorModeValue("gray.300", "gray.600");
+  const emptyBg = useColorModeValue("gray.50", "gray.800");
 
   const [shelfData, setShelfData] = useState(null);
   const [shelveBooks, setShelveBooks] = useState([]);
@@ -63,6 +65,8 @@ const Bookshelve = () => {
   const toast = useToast();
 
   const router = useRouter();
+
+  const hoverCard = useColorModeValue("gray.50", "whiteAlpha.50");
 
   // Modal B: Edit Shelf
   const {
@@ -466,7 +470,7 @@ const Bookshelve = () => {
             {booksDisplay.map((book, index) => (
               <Tr
                 key={book.id}
-                _hover={{ bg: useColorModeValue("gray.50", "whiteAlpha.50") }}
+                _hover={{ bg: hoverCard }}
                 transition="background 0.2s"
                 group="true"
               >
@@ -501,10 +505,7 @@ const Bookshelve = () => {
                       fallbackSrc="https://via.placeholder.com/40"
                     />
                     <Box>
-                      <Text
-                        fontWeight="bold"
-                        color={useColorModeValue("gray.700", "white")}
-                      >
+                      <Text fontWeight="bold" color={"white"}>
                         {book.volumeInfo.title}
                       </Text>
                       <Text fontSize="sm" color="gray.500">
@@ -560,6 +561,7 @@ const Bookshelve = () => {
 };
 
 const emptyShelve = () => {
+  
   return (
     <Flex
       direction="column"
@@ -567,9 +569,9 @@ const emptyShelve = () => {
       justify="center"
       h="300px"
       border="2px dashed"
-      borderColor={useColorModeValue("gray.300", "gray.600")}
+      borderColor={emptyBorderColor}
       rounded="lg"
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={emptyBg}
     >
       <Icon as={FaBookOpen} boxSize={12} color="gray.400" mb={4} />
       <Text fontSize="lg" color="gray.500">

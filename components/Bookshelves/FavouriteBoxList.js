@@ -8,7 +8,7 @@ import {
   VStack,
   Image,
   useColorModeValue,
-  Icon
+  Icon,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { FaBookOpen } from "react-icons/fa";
@@ -17,7 +17,8 @@ const FavouriteBoxList = ({ favourites }) => {
   const woodLight = "#eebb88";
   const woodDark = "#a06842";
   const shadowColor = useColorModeValue("rgba(0,0,0,0.3)", "rgba(0,0,0,0.8)");
-
+  const emptyBorderColor = useColorModeValue("gray.300", "gray.600");
+  const emptyBg = useColorModeValue("gray.50", "gray.800");
   return (
     <Box mt="5px" mb={"10px"}>
       <Heading
@@ -38,9 +39,9 @@ const FavouriteBoxList = ({ favourites }) => {
           justify="center"
           h="200px"
           border="2px dashed"
-          borderColor={useColorModeValue("gray.300", "gray.600")}
+          borderColor={emptyBorderColor}
           rounded="lg"
-          bg={useColorModeValue("gray.50", "gray.800")}
+          bg={emptyBg}
           mb="2%"
         >
           <Icon as={FaBookOpen} boxSize={12} color="gray.400" mb={4} />
@@ -53,7 +54,6 @@ const FavouriteBoxList = ({ favourites }) => {
             href="/"
             mt="1%"
             size="md"
-           
             shadow="lg"
             colorScheme={"purple"}
           >

@@ -49,6 +49,10 @@ const BookShelveList = () => {
   //Current Usser
   const { currentUser } = useAuth();
 
+  //Colors
+  const emptyBorderColor = useColorModeValue("gray.300", "gray.600");
+  const emptyBg = useColorModeValue("gray.50", "gray.800");
+
   //Modal States
   const {
     isOpen: isAddOpen,
@@ -129,7 +133,6 @@ const BookShelveList = () => {
       .doc(currentUser.uid)
       .collection("bookshelves")
       .add({
-
         coverImage: "default",
         name: nameBookshelve,
         desc: desc,
@@ -275,9 +278,9 @@ const BookShelveList = () => {
                 justify="center"
                 h="300px"
                 border="2px dashed"
-                borderColor={useColorModeValue("gray.300", "gray.600")}
+                borderColor={emptyBorderColor}
                 rounded="lg"
-                bg={useColorModeValue("gray.50", "gray.800")}
+                bg={emptyBg}
               >
                 <Icon as={FaBookReader} boxSize={12} color="gray.400" mb={4} />
                 <Text fontSize="lg" color="gray.500">
