@@ -3,11 +3,17 @@ import { Box, Text, SimpleGrid, Icon } from "@chakra-ui/react";
 import BookCardRec from "../../BookDetails/Cards/BookCardRec";
 import { RiSearchEyeLine } from "react-icons/ri";
 const SearchList = ({ results, totalItems }) => {
+  
   return (
     <>
       {totalItems !== 0 ? (
         <Box my="1%">
-          <Text my={{lg:"1%" , md:"4%", sm:"10%"}} fontWeight={"bold"} fontSize="1rem" color={"gray"}>
+          <Text
+            my={{ lg: "1%", md: "4%", sm: "10%" }}
+            fontWeight={"bold"}
+            fontSize="1rem"
+            color={"gray"}
+          >
             {totalItems} books found. Showing 20 results.
           </Text>
           <SimpleGrid

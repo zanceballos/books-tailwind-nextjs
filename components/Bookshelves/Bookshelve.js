@@ -542,7 +542,7 @@ const Bookshelve = () => {
             {shelveBooks.length === 0 && (
               <Tr>
                 <Td colSpan={4} textAlign="center" py={10}>
-                  {emptyShelve()}
+                  <EmptyShelve emptyBorderColor={emptyBorderColor} emptyBg={emptyBg} />
                 </Td>
               </Tr>
             )}
@@ -560,7 +560,7 @@ const Bookshelve = () => {
   );
 };
 
-const emptyShelve = () => {
+const EmptyShelve = ({emptyBorderColor, emptyBg}) => {
   
   return (
     <Flex

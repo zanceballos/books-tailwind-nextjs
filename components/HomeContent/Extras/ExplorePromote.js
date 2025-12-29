@@ -1,27 +1,20 @@
 import React from "react";
-import { Grid, GridItem, Center, Text } from "@chakra-ui/react";
+import { Grid, Card, GridItem, Center, Text, Box, SimpleGrid } from "@chakra-ui/react";
 import NextLink from "next/link"; // 1. Renamed import for clarity
 
 const ExplorePromote = () => {
   return (
-    <Grid
-      h={{ base: "200px", sm: "200px" }}
+    <SimpleGrid
+      columns={{ base: 1, md: 2 }} // Stack on mobile (1), Side-by-side on desktop (2)
+      spacing={5}
       marginTop="4rem"
-      templateRows="1fr"
-      templateColumns="repeat(12, 1fr)"
-      gap={4}
+      w="full"
     >
       {/* First Card */}
-      <GridItem
+      <Card
         as={NextLink}
         href="/search/books/starwars"
         // Styles
-        className="column-explore"
-        rounded="lg"
-        boxShadow="lg"
-        rowSpan={1}
-        colSpan={{ base: 6, md: 6, sm: 6 }}
-        bg="tomato"
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -30,31 +23,57 @@ const ExplorePromote = () => {
           transform: "scale(1.02)",
           transition: "0.2s",
         }}
+         borderRadius="3xl"
       >
-        <Text
-          fontSize={{
-            base: "1rem",
-            md: "1.5rem",
-            lg: "2rem",
-            xl: "3rem",
-          }}
-          fontWeight="bold"
+        <Box
+          bg="#3E3232"
+          p={{ base: 8, md: 12 }}
+         
+         borderRadius={"3xl"}
           color="white"
+          fontFamily="sans-serif"
+          width={"100%"}
+          lineHeight="0.9"
+          userSelect="none"
         >
-          Explore Books
-        </Text>
-      </GridItem>
+          <Text
+            fontSize={{ base: "4xl", md: "6xl" }}
+            fontWeight="bold"
+            color="whiteAlpha.500"
+            letterSpacing="tight"
+          >
+            Discover
+          </Text>
+          <Text
+            fontSize={{
+              base: "1rem",
+              md: "1.5rem",
+              lg: "2rem",
+              xl: "3rem",
+            }}
+            fontWeight="bold"
+            color="white"
+          >
+            Explore Books
+          </Text>
+          <Text
+            fontSize={{ base: "lg", md: "2xl" }}
+            fontWeight="bold"
+            color="whiteAlpha.500"
+            letterSpacing="tight"
+            my="2%"
+          >
+            Your Next Novel
+          </Text>
+        </Box>
+      </Card>
 
       {/* Second Card */}
-      <GridItem
+      <Card
         as={NextLink}
-        href="/bookshelves"
-        className="column-explore"
-        rounded="lg"
-        boxShadow="lg"
-        rowSpan={1}
-        colSpan={{ base: 6, md: 6, sm: 6 }}
-        bg="tomato"
+        href="/bookshelves/all"
+        // Styles
+         borderRadius="3xl"
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -64,21 +83,48 @@ const ExplorePromote = () => {
           transition: "0.2s",
         }}
       >
-        <Text
-          fontSize={{
-            base: "1rem",
-            md: "1.5rem",
-            lg: "2rem",
-            xl: "3rem",
-          }}
-          fontWeight="bold"
+        <Box
+          bg="#ac9a8fff"
+          p={{ base: 8, md: 12 }}
+          borderRadius="3xl"
           color="white"
-          alignItems={"center"}
+          fontFamily="sans-serif"
+          width={"100%"}
+          lineHeight="0.9"
+          userSelect="none"
         >
-          Your Bookshelves
-        </Text>
-      </GridItem>
-    </Grid>
+          <Text
+            fontSize={{ base: "4xl", md: "6xl" }}
+            fontWeight="bold"
+            color="whiteAlpha.500"
+            letterSpacing="tight"
+          >
+            Manage
+          </Text>
+          <Text
+            fontSize={{
+              base: "1rem",
+              md: "1.5rem",
+              lg: "2rem",
+              xl: "3rem",
+            }}
+            fontWeight="bold"
+            color="white"
+          >
+            Bookshelves
+          </Text>
+          <Text
+            fontSize={{ base: "lg", md: "2xl" }}
+            fontWeight="bold"
+            color="whiteAlpha.500"
+            letterSpacing="tight"
+            my="2%"
+          >
+            Curate Your Books
+          </Text>
+        </Box>
+      </Card>
+    </SimpleGrid>
   );
 };
 

@@ -192,7 +192,7 @@ const BookImage = ({ details }) => {
 
       try {
         await batch.commit().then(() => {
-           toast({
+          toast({
             title: `Added to Bookshelve!`,
             description: "Book has been added to your Bookshelve!.",
             status: "success",
@@ -222,17 +222,18 @@ const BookImage = ({ details }) => {
         p={6}
         minW={{ base: "400px", lg: "350px", md: "300px", sm: "300px" }}
         maxW={"450px"}
-        height="600px"
+        height="700px"
         bg={useColorModeValue("white", "gray.800")}
-        boxShadow={"2xl"}
-        rounded={"lg"}
+        border={"2px solid"}
+        borderColor={useColorModeValue("gray.200", "gray.700")}
         pos={"relative"}
+        rounded="lg"
         zIndex={1}
       >
         <Box
           rounded={"lg"}
           pos={"relative"}
-          height={"230px"}
+          height={"380px"}
           _after={{
             transition: "all .3s ease",
             content: '""',
@@ -242,12 +243,12 @@ const BookImage = ({ details }) => {
             top: 5,
             left: 0,
             backgroundImage: `url(${volumeInfo.imageLinks?.thumbnail})`,
-            filter: "blur(15px)",
+            filter: "blur(10px)",
             zIndex: -1,
           }}
           _groupHover={{
             _after: {
-              filter: "blur(20px)",
+              filter: "blur(30px)",
             },
           }}
         >
@@ -259,10 +260,11 @@ const BookImage = ({ details }) => {
               src={volumeInfo.imageLinks?.thumbnail}
               alt="https://www.biotrop.org/images/default-book.png"
               mt="20px"
-              height={"230px"}
+              height={"350px"}
             />
           </Center>
         </Box>
+
         <Stack pt={10} align="center">
           <Text
             color={"gray.500"}
@@ -303,13 +305,11 @@ const BookImage = ({ details }) => {
                 : "No Authors"}
             </Text>
           </Stack>
-
           <Button
             variant={favourite ? "solid" : "outline"}
             width="90%"
-            rounded="3xl"
-            colorScheme="purple"
-            mt="50px"
+            colorScheme={favourite ? "pink" : "purple"}
+            mt="20px"
             onClick={favourite === false ? favouriteBook : removeFavourite}
             isLoading={loading ? true : false}
           >
@@ -319,24 +319,23 @@ const BookImage = ({ details }) => {
               color={favourite && "white"}
               as={favourite ? AiFillHeart : FiHeart}
             ></Icon>
-            {favourite ? "Added To Favourites" : "Favourite"}
+            {favourite ? "Added To Favourites" : "Add to Favourite"}
           </Button>
 
           <Button
             variant="solid"
             width="90%"
-            rounded="3xl"
-            colorScheme="gray"
+            colorScheme={"purple"}
             isLoading={loading ? true : false}
             onClick={addToBookshelve}
           >
             <Icon
               mr="4"
               fontSize={"16"}
-              _groupHover={{ color: "black" }}
+              _groupHover={{ color: "white" }}
               as={FiBookmark}
             ></Icon>
-            Add to Bookshelve
+            Add to Shelve
           </Button>
         </Stack>
       </Box>

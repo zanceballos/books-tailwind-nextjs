@@ -1,5 +1,6 @@
 import React from "react";
 import Bookshelve from "../../../components/Bookshelves/Bookshelve";
+import { withProtected } from "../../../hook/route"
 const ShelveContent = () => {
   return (
     <>
@@ -8,4 +9,4 @@ const ShelveContent = () => {
   );
 };
 
-export default ShelveContent;
+export default withProtected(ShelveContent);

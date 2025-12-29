@@ -40,7 +40,7 @@ const BookDetail = ({ bookInfo, similarBooks }) => {
         />
       </Head>
       {!loading && (
-        <Container maxW={{ lg: "90%", md: "100%" }}>
+        <>
           <Breadcrumb
             spacing="8px"
             separator={<ChevronRightIcon color="gray.500" />}
@@ -60,7 +60,7 @@ const BookDetail = ({ bookInfo, similarBooks }) => {
           <BookInfo details={bookInfo} />
 
           <RecommendList details={bookInfo} similar={similarBooks.items} />
-        </Container>
+        </>
       )}
     </>
   );
