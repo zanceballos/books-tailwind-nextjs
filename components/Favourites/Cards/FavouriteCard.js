@@ -29,7 +29,7 @@ const FavouriteCard = ({ book, remove }) => {
           boxShadow="md"
           overflow="hidden"
           p={{ base: 4, md: 6 }}
-          mt={4}
+          mt={2}
           h="100%"
           display={"flex"}
           flexDirection={"column"}
@@ -109,7 +109,7 @@ const FavouriteCard = ({ book, remove }) => {
                 letterSpacing="wider"
               >
                 {book.volumeInfo.categories
-                  ? book.volumeInfo.categories[0]
+                  ? book.volumeInfo.categories[0].split("/")[0]
                   : "Uncategorized"}
               </Badge>
 
@@ -122,7 +122,7 @@ const FavouriteCard = ({ book, remove }) => {
               </Text>
 
               {/* Buttons located at the bottom */}
-              <Stack direction="row" spacing={4} w="full" pt={4} mt="auto">
+              <Stack direction="row" spacing={1} w="full" pt={0} mt="auto">
                 <Button
                   as={NextLink}
                   href={`/books/details/${book.id}`}

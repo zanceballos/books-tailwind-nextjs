@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import BookInfo from "../../../components/BookDetails/BookInfo";
 import RecommendList from "../../../components/BookDetails/Lists/RecommendList";
 import Head from "next/head";
+import BookSummarizer from "../../../components/BookDetails/LLM_Components/BookSummarizer";
 const BookDetail = ({ bookInfo, similarBooks }) => {
   //SEO Integration for each book detail page
   const title = bookInfo.volumeInfo.title;
@@ -58,6 +59,8 @@ const BookDetail = ({ bookInfo, similarBooks }) => {
           </Breadcrumb>
 
           <BookInfo details={bookInfo} />
+          <BookSummarizer details={bookInfo} />
+
 
           <RecommendList details={bookInfo} similar={similarBooks.items} />
         </>

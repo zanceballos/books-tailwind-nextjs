@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   GridItem,
@@ -10,16 +10,8 @@ import {
   Avatar,
   Button,
   Icon,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverArrow,
-  IconButton,
-  Flex,
-  Image,
   useColorModeValue,
+  Collapse,
 } from "@chakra-ui/react";
 import BookImage from "./BookImage";
 import { FiBook, FiBookOpen, FiInfo, Fi } from "react-icons/fi";
@@ -34,6 +26,9 @@ const BookInfo = ({ details }) => {
     /<[^>]+>/g,
     ""
   );
+
+  const [show, setShow] = useState(false);
+  const handleToggle = () => setShow(!show);
   return (
     <>
       <Grid
@@ -47,6 +42,7 @@ const BookInfo = ({ details }) => {
           md: "repeat(1, 1fr)",
         }}
         gap={4}
+        alignItems={"start"}
       >
         <GridItem
           rowSpan={1}
@@ -55,13 +51,8 @@ const BookInfo = ({ details }) => {
         >
           <BookImage details={details} />
         </GridItem>
-        <GridItem
-          rowSpan={1}
-          colSpan={{ base: 3, lg: 3, md: 4, sm: 4 }}
-          bg=""
-          p={6}
-        >
-          <Box mt="1%" mb="1%">
+        <GridItem rowSpan={1} colSpan={{ base: 3, lg: 3, md: 4, sm: 4 }} bg="">
+          <Box mb="1%">
             <Box>
               <Badge
                 colorScheme="purple"
@@ -147,58 +138,45 @@ const BookInfo = ({ details }) => {
             rounded={"lg"}
           >
             <Box p="5">
-<HStack color={"purple.500"} mb="10px">
-              <Icon
-                mr="1"
-                fontSize={"20"}
-                _groupHover={{ color: "black" }}
-                as={AiFillInfoCircle}
-              ></Icon>{" "}
-              <Text fontSize={"1.2rem"} fontWeight={"bold"}>
-                Description
-              </Text>
-            </HStack>
-            <Text
-              textAlign={"justify"}
-              noOfLines={{ base: "3", sm: "5" }}
-              color={"gray"}
-              justifyContent={""}
-              width="100%"
-            >
-              {details.volumeInfo.description != undefined
-                ? cleanDescription
-                : "No Description Yet"}
-            </Text>
-            <Popover
-              size={"2xl"}
-              trigger="hover"
-              placement="top"
-              maxW="300px"
-              mt="10px"
-            >
-              <PopoverTrigger>
-                <Text
-                  cursor={"pointer"}
-                  _hover={{ color: "pink.500" }}
-                  colorScheme={"purple"}
-                  color={useColorModeValue("gray.500", "gray.400")}
-                  as="u"
-                >
-                  <b>More Description...</b>
+              <HStack color={"purple.500"} mb="10px">
+                <Icon
+                  mr="1"
+                  fontSize={"20"}
+                  _groupHover={{ color: "black" }}
+                  as={AiFillInfoCircle}
+                ></Icon>{" "}
+                <Text fontSize={"1.2rem"} fontWeight={"bold"}>
+                  Description
                 </Text>
-              </PopoverTrigger>
-              <PopoverContent w="500px" maxW="90vw">
-                <PopoverArrow />
-                <PopoverHeader fontWeight="bold">Description</PopoverHeader>
-                <PopoverBody fontSize="sm" maxH="200px" overflowY="auto">
-                  {details.volumeInfo.description != undefined
-                    ? cleanDescription
-                    : "No Description Yet"}
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
+              </HStack>
+              <Collapse startingHeight={120} in={show}>
+              <Text
+                textAlign={"justify"}
+                color={"gray"}
+                justifyContent={""}
+                width="100%"
+              >
+                {details.volumeInfo.description != undefined
+                  ? cleanDescription
+                  : "No Description Yet"}
+              </Text>
+              </Collapse>
+              
+              <Text
+                cursor={"pointer"}
+                _hover={{ color: "pink.500" }}
+                colorScheme={"purple"}
+                color={useColorModeValue("gray.500", "gray.400")}
+                as="u"
+                onClick={handleToggle}
+              >
+                {show ? (
+                  <b>Show Less...</b>
+                ) : (
+                  <b>Read More...</b>
+                )}
+              </Text>
             </Box>
-            
           </Box>
           <SimpleGrid
             columns={{ base: 2, lg: 2, md: 1, sm: 1 }}
@@ -330,7 +308,11 @@ const BookInfo = ({ details }) => {
           </SimpleGrid>
 
           <Box mt="3%" alignItems={"end"}>
-            <Link href={details.volumeInfo.previewLink} passHref target="_blank">
+            <Link
+              href={details.volumeInfo.previewLink}
+              passHref
+              target="_blank"
+            >
               <Button
                 colorScheme={"purple"}
                 height="65px"
@@ -349,7 +331,11 @@ const BookInfo = ({ details }) => {
               </Button>
             </Link>
 
-            <Link href={details.volumeInfo.canonicalVolumeLink} passHref target="_blank">
+            <Link
+              href={details.volumeInfo.canonicalVolumeLink}
+              passHref
+              target="_blank"
+            >
               <Button
                 colorScheme={"purple"}
                 height="65px"
