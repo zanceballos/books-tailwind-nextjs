@@ -60,7 +60,7 @@ const Sidebar = ({ children }) => {
             size="full"
           >
             <DrawerContent>
-              <SidebarContent onClose={onClose} />
+              <SidebarContent onClose={onClose} currentUser={currentUser} />
             </DrawerContent>
           </Drawer>
           {/* mobilenav */}
