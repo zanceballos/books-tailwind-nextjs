@@ -4,6 +4,14 @@ export default async function handler({ query: { query } }, res) {
   );
   const json = await data.json();
   if (json.items) {
+
+    // Sort by newest first
+    json.items.sort((a, b) => {
+      const dateA = new Date(a.volumeInfo.publishedDate || "1000"); 
+      const dateB = new Date(b.volumeInfo.publishedDate || "1000");
+      return dateB - dateA;
+    });
+
     json.items = json.items.map((book) => {
       if (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) {
         let imageUrl = book.volumeInfo.imageLinks.thumbnail;

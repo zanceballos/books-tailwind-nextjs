@@ -118,7 +118,7 @@ const SidebarContent = ({ onClose, currentUser, ...rest }) => {
             Your Account
           </Text>
         </Flex>
-        {currentUser !== null ? (
+        {currentUser ? (
           <>
             {AccountItems.map((link) => (
               <NavItem
