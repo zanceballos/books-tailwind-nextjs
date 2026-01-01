@@ -261,6 +261,7 @@ const BookImage = ({ details }) => {
               alt="https://www.biotrop.org/images/default-book.png"
               mt="20px"
               height={"350px"}
+              fallback={"https://www.biotrop.org/images/default-book.png"}
             />
           </Center>
         </Box>

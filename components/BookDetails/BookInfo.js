@@ -21,11 +21,13 @@ import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 
 const BookInfo = ({ details }) => {
+   console.log(details)
   // Placeholder
-  const cleanDescription = details.volumeInfo.description.replace(
+  const cleanDescription = details?.volumeInfo?.description?.replace(
     /<[^>]+>/g,
     ""
   );
+ 
 
   const [show, setShow] = useState(false);
   const handleToggle = () => setShow(!show);
@@ -52,12 +54,13 @@ const BookInfo = ({ details }) => {
           <BookImage details={details} />
         </GridItem>
         <GridItem rowSpan={1} colSpan={{ base: 3, lg: 3, md: 4, sm: 4 }} bg="">
-          <Box mb="1%">
-            <Box>
+          <Box my="1%">
+            <Box >
               <Badge
                 colorScheme="purple"
                 variant="subtle"
                 fontSize="0.7rem"
+                my="1"
                 px={3}
                 py={1}
                 borderRadius="full"
@@ -74,7 +77,8 @@ const BookInfo = ({ details }) => {
                 fontSize="0.7rem"
                 px={3}
                 py={1}
-                ml="5px"
+                mx="5px"
+                my="1"
                 borderRadius="full"
                 textTransform="uppercase"
                 letterSpacing="wider"
@@ -89,11 +93,11 @@ const BookInfo = ({ details }) => {
                 fontSize="0.7rem"
                 px={3}
                 py={1}
-                ml="5px"
+                my="1"
                 borderRadius="full"
                 textTransform="uppercase"
                 letterSpacing="wider"
-                m={{ sm: "10px" }}
+                
               >
                 {details.volumeInfo.publisher != undefined
                   ? details.volumeInfo.publisher
@@ -132,7 +136,7 @@ const BookInfo = ({ details }) => {
           </Box>
 
           <Box
-            
+            my="5"
             border={"2px solid"}
             borderColor={useColorModeValue("gray.200", "gray.700")}
             rounded={"lg"}
@@ -181,8 +185,6 @@ const BookInfo = ({ details }) => {
           <SimpleGrid
             columns={{ base: 2, lg: 2, md: 1, sm: 1 }}
             spacing={"10px"}
-            
-            my="5"
             minChildWidth="300px"
           >
             <Box
@@ -307,7 +309,7 @@ const BookInfo = ({ details }) => {
             </Box>
           </SimpleGrid>
 
-          <Box mt="3%" alignItems={"end"}>
+          <Box mt="2%" alignItems={"end"}>
             <Link
               href={details.volumeInfo.previewLink}
               passHref
