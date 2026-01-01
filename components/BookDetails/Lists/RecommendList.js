@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Text, SimpleGrid } from "@chakra-ui/react";
 import BookCardRec from "../Cards/BookCardRec";
 const RecommendList = ({ details, similar }) => {
-  console.log(similar)
+  
   return (
     <>
       <Box my="4%">

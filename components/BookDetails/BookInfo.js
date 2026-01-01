@@ -132,7 +132,7 @@ const BookInfo = ({ details }) => {
           </Box>
 
           <Box
-            my={{ lg: "2%", md: "2%", sm: "10%" }}
+            
             border={"2px solid"}
             borderColor={useColorModeValue("gray.200", "gray.700")}
             rounded={"lg"}
@@ -181,8 +181,8 @@ const BookInfo = ({ details }) => {
           <SimpleGrid
             columns={{ base: 2, lg: 2, md: 1, sm: 1 }}
             spacing={"10px"}
-            mt={"1.2rem"}
-            mb={"1.2rem"}
+            
+            my="5"
             minChildWidth="300px"
           >
             <Box
