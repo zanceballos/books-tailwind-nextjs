@@ -233,12 +233,12 @@ const BookShelveList = () => {
         </>
       ) : (
         <>
-          <Flex>
+          <Flex  mb={4}>
             <Box>
               <Text
-                fontSize={{ base: "1xl", lg: "4xl", md: "2xl", sm: "1xl" }}
+                fontSize={{ base: "2xl", lg: "4xl", md: "2xl", sm: "1xl" }}
                 fontWeight="bold"
-                mb={4}
+                
               >
                 My Bookshelves
               </Text>
@@ -246,7 +246,7 @@ const BookShelveList = () => {
             <Spacer />
             <Box>
               <Button
-                m={"20px"}
+               
                 bgColor={"black"}
                 color={"white"}
                 rounded="full"
@@ -263,11 +263,12 @@ const BookShelveList = () => {
           </Box>
           <Box mt="30px" mb={"10px"}>
             <Heading
-              size={{ base: "md", lg: "lg", md: "md", sm: "sm" }}
+              size={{ base: "2xl", lg: "lg", md: "md", sm: "md" }}
               mb={6}
               textTransform="capitalize"
               m="10px"
               fontWeight={"bold"}
+              fontFamily={"inherit"}
             >
               Bookshelves
             </Heading>
@@ -407,7 +408,7 @@ const ShelfRow = ({ shelf, deleteBookshelve, onEdit }) => {
             </Text>
           </VStack>
 
-          <Text fontSize="xs" fontWeight="light" color="gray.600" mt="2px">
+          <Text fontSize="xs" fontWeight="light" display={{sm:"none"}} color="gray.600" mt="2px">
             Added on: {formatDate(shelf.createdAt)}
           </Text>
           {shelf.previewImages && (
@@ -432,6 +433,7 @@ const ShelfRow = ({ shelf, deleteBookshelve, onEdit }) => {
             transition="opacity 0.2s"
             mr={4}
             onClick={(e) => e.preventDefault()}
+            display={{sm:"none"}}
           >
             <Tooltip label="Edit Shelf">
               <IconButton

@@ -8,7 +8,7 @@ import {
   Badge,
   Button,
 } from "@chakra-ui/react";
-import Link from "next/link";
+import NextLink from "next/link";
 
 const BookCardRec = ({ book }) => {
   return (
@@ -110,9 +110,13 @@ const BookCardRec = ({ book }) => {
               </Text>
 
               <Box pt="10px">
-                <Link href={`/books/details/${book.id}`} passHref>
-                  <Button colorScheme={"gray"}>Details</Button>
-                </Link>
+                <Button
+                  as={NextLink}
+                  href={`/books/details/${book.id}`}
+                  colorScheme={"gray"}
+                >
+                  Details
+                </Button>
               </Box>
             </Box>
           </Flex>

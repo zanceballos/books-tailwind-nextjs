@@ -131,9 +131,8 @@ const BookSummarizer = ({ details }) => {
     handleSummarizer();
     //setSummary(PlaceholderData);
     //setSumLoading(false);
-  }, []);
+  }, [details]);
 
-  const cardBg = useColorModeValue("white", "gray.800");
 
   return (
     <>
@@ -247,6 +246,7 @@ const BookSummarizer = ({ details }) => {
                     mt="1rem"
                     variant="link"
                     colorScheme="whiteAlpha.900"
+                    textDecoration={"underline"}
                   >
                     {show ? "Show Less" : "Read More"}
                   </Button>

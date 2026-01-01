@@ -22,11 +22,12 @@ const FavouriteBoxList = ({ favourites }) => {
   return (
     <Box mt="5px" mb={"10px"}>
       <Heading
-        size={{ base: "md", lg: "lg", md: "md", sm: "sm" }}
+        size={{ base: "lg", lg: "lg", md: "md", sm: "md" }}
         mb={6}
         textTransform="capitalize"
         m="10px"
         fontWeight={"bold"}
+        fontFamily={"inherit"}
       >
         Favourites
       </Heading>
