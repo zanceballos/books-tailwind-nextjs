@@ -7,7 +7,7 @@ const ExplorePromote = () => {
     <SimpleGrid
       columns={{ base: 1, md: 2 }} // Stack on mobile (1), Side-by-side on desktop (2)
       spacing={5}
-      marginTop="4rem"
+      mt="5"
       w="full"
     >
       {/* First Card */}
@@ -23,13 +23,13 @@ const ExplorePromote = () => {
           transform: "scale(1.02)",
           transition: "0.2s",
         }}
-         borderRadius="3xl"
+         borderRadius="lg"
       >
         <Box
           bg="#3E3232"
           p={{ base: 8, md: 12 }}
          
-         borderRadius={"3xl"}
+         borderRadius={"lg"}
           color="white"
           fontFamily="sans-serif"
           width={"100%"}
@@ -73,7 +73,7 @@ const ExplorePromote = () => {
         as={NextLink}
         href="/bookshelves/all"
         // Styles
-         borderRadius="3xl"
+         borderRadius="lg"
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -86,7 +86,7 @@ const ExplorePromote = () => {
         <Box
           bg="#ac9a8fff"
           p={{ base: 8, md: 12 }}
-          borderRadius="3xl"
+          borderRadius="lg"
           color="white"
           fontFamily="sans-serif"
           width={"100%"}

@@ -15,10 +15,11 @@ const FavouritesPromote = () => {
   return (
     <>
       <Box
-        mt="5%"
+        mb="2"
+        mt={{sm:"2", md: 5}}
         bg="#abae93ff"
         p={{ base: 8, md: 12 }}
-        borderRadius="3xl"
+        borderRadius="lg"
         color="white"
         fontFamily="sans-serif"
         width={"100%"}

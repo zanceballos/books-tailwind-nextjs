@@ -8,10 +8,13 @@ import FavouritesPromote from "../components/HomeContent/Extras/FavouritesPromot
 import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import { fetchHeroImages } from "../service/bookService";
 
-export default function Home({heroImages}) {
+export default function Home({ heroImages }) {
   return (
     <div>
       <ColumnsCards images={heroImages} />
+      <FavouritesPromote />
+      <ExplorePromote />
+
       <TopCards />
       <VolumesLists
         query="subject:fantasy"
@@ -23,7 +26,7 @@ export default function Home({heroImages}) {
         header="Top 100 Books"
         pageid="top-books"
       />
-      <ExplorePromote />
+
       <CategoryVolumes
         query="subject:fantasy"
         header="Fantasy"
@@ -34,7 +37,7 @@ export default function Home({heroImages}) {
         header="Sci-fi"
         pageid="science-fiction"
       />
-      <FavouritesPromote />
+
       <CategoryVolumes
         query="subject:thriller"
         header="Thriller"

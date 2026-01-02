@@ -31,11 +31,11 @@ const BookCardReleases = ({ details }) => {
       <Box
         role={"group"}
         p={6}
-        maxW={"330px"}
+        width={"330px"}
         height="500px"
         w={"full"}
         bg={useColorModeValue("white", "gray.800")}
-        boxShadow={"2xl"}
+        boxShadow={"lg"}
         rounded={"lg"}
         pos={"relative"}
         zIndex={1}
