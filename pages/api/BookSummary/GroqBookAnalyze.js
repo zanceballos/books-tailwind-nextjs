@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
       5. "songs": Return a JSON array of 5 songs where each item has: 'song_img_url;,  'song_title', 'artist',  'reason' (one short sentence explaining the fit, famous songs if possible)
 
-      6. "estimate_read": return a JSON object "difficulty" (e.g. Easy, Medium, Hard) of the "target_audience" (e.g. Adults, Kids, Any Ages) and estimated "time_to_finish" in hours reading the book of ${page_count} pages
+      6. "estimate_read": return a JSON object "difficulty" (e.g. Easy, Medium, Hard) of the "target_audience" (e.g. Adults, Kids, Any Ages) and estimated "time_to_finish" in hours (integer only, not Object) reading the book of ${page_count} pages 
 
       Do not include markdown formatting like \'\'\'json. Just return the raw JSON.
     
