@@ -29,7 +29,7 @@ const VolumesLists = ({ header, pageid, query }) => {
 
   if (loading) {
     return (
-      <SimpleGrid columns={{ base: 2, md: 2 }} spacing="10" mt="4">
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing="10">
         {[...Array(2)].map((_, i) => (
           <BookInfoSmallSkeleton key={i} />
         ))}
@@ -49,9 +49,9 @@ const VolumesLists = ({ header, pageid, query }) => {
 const BookInfoSmallSkeleton = () => {
   return (
     <>
-      <Box padding="10" mt="2%" boxShadow="lg" bg="white" mb={50}>
+      <Box padding="10" mt="2%" boxShadow="lg" bg="white">
         <SkeletonCircle
-          size={{ base: "150px", lg: "150px", md: "150px", sm: "150px" }}
+          size={{ base: "150px", lg: "150px", md: "100px", sm: "100px" }}
         />
         <SkeletonText mt="10" noOfLines={6} spacing="5" />
       </Box>

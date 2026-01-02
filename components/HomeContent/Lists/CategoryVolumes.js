@@ -4,7 +4,8 @@ import {
   SkeletonCircle,
   SkeletonText,
   SimpleGrid,
-  Text
+  Text,
+  HStack,
 } from "@chakra-ui/react";
 import { server } from "../../../config";
 import BookCardCategories from "../Cards/BookCardCategories";
@@ -15,9 +16,7 @@ const CategoryVolumes = ({ header, pageid, query }) => {
   useEffect(() => {
     //Call the api and set te state
     const getVolumesfromURl = async () => {
-      const res = await fetch(
-        `${server}/api/books/volumes/${query}`
-      );
+      const res = await fetch(`${server}/api/books/volumes/${query}`);
       const volumes = await res.json();
       return volumes;
     };
@@ -26,10 +25,9 @@ const CategoryVolumes = ({ header, pageid, query }) => {
       setTimeout(() => {
         setVolumes(data.items);
         setLoading(false);
-     
       }, 2800);
-  
     });
+    
   }, []);
 
   return (
@@ -43,21 +41,35 @@ const CategoryVolumes = ({ header, pageid, query }) => {
           >
             {header}
           </Text>
-         {volumes != null && <SimpleGrid
-            columns={{ base: 8, lg: 8, md: 4, sm: 2, xs: 2 }}
-            minChildWidth={{
-              base: "200px",
-              lg: "200px",
-              md: "170px",
-              sm: "170px",
-            }}
-            spacing="40px"
-          >
-            {volumes.map((book) => (
-                <BookCardCategories key={book.id} details={book} />
-              ))
-              .slice(0, 8)}
-          </SimpleGrid>}
+          <Box width={"100%"}>
+            {volumes != null && (
+              <HStack
+                spacing={2}
+                overflowX="auto"
+                css={{
+                  "&::-webkit-scrollbar": { height: "4px" },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "#00000014",
+                    borderRadius: "24px",
+                  },
+                }}
+                my="2"
+              >
+                {volumes.map((book) => (
+                  <Box
+                    key={book.id}
+                    mx={"2"}
+
+                    flexShrink={0}
+                    display={"flex"}
+                    justifyContent={"center"}
+                  >
+                    <BookCardCategories key={book.id} details={book} />
+                  </Box>
+                ))}
+              </HStack>
+            )}
+          </Box>
         </div>
       ) : (
         <>
@@ -74,7 +86,6 @@ const CategoryVolumes = ({ header, pageid, query }) => {
             <BookInfoSmallSkeleton />
             <BookInfoSmallSkeleton />
             <BookInfoSmallSkeleton />
-            
           </SimpleGrid>
         </>
       )}
@@ -82,13 +93,12 @@ const CategoryVolumes = ({ header, pageid, query }) => {
   );
 };
 
-
 const BookInfoSmallSkeleton = () => {
   return (
     <>
-      <Box padding="10" mt="2%" boxShadow="lg" bg="white" mb={50}>
+      <Box padding="10" mt="2%" boxShadow="lg" bg="white" >
         <SkeletonCircle
-          size={{ base: "150px", lg: "150px", md: "150px", sm: "150px" }}
+          size={{ base: "150px", lg: "150px", md: "100px", sm: "100px" }}
         />
         <SkeletonText mt="10" noOfLines={6} spacing="5" />
       </Box>

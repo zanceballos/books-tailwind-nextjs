@@ -21,7 +21,7 @@ const BookCardCategories = ({ details }) => {
     <Box
       textAlign="center"
       height="400px"
-      maxW="sm"
+      w="200px"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"

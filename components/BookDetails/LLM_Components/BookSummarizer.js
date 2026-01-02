@@ -133,7 +133,6 @@ const BookSummarizer = ({ details }) => {
     //setSumLoading(false);
   }, [details]);
 
-
   return (
     <>
       <Box
@@ -146,7 +145,6 @@ const BookSummarizer = ({ details }) => {
         width={"100%"}
         lineHeight="0.9"
         userSelect="none"
-        
       >
         <Box>
           <Flex justify={"space-between"} align={"center"} wrap="wrap">
@@ -185,26 +183,40 @@ const BookSummarizer = ({ details }) => {
             </Box>
           ) : (
             <>
-              <HStack spacing={2}>
-                {summary?.vibe?.tags?.map((tag, i) => (
-                  <Badge
-                    key={i}
-                    colorScheme="gray"
-                    variant="subtle"
-                    fontSize="0.8rem"
-                    p="2"
-                    borderRadius="full"
-                    my="2"
-                    textTransform="uppercase"
-                    letterSpacing="wider"
-                  >
-                    <HStack>
-                      <Box> {summary.vibe.emojis[i]}</Box>
-                      <Box>{tag}</Box>
-                    </HStack>
-                  </Badge>
-                ))}
-              </HStack>
+              <Box w={"100%"}>
+                <HStack
+                  spacing={2}
+                  overflowX="auto"
+                  pb="4"
+                  css={{
+                    "&::-webkit-scrollbar": { height: "4px" },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "#00000014",
+                      borderRadius: "24px",
+                    },
+                  }}
+                  my="2"
+                >
+                  {summary?.vibe?.tags?.map((tag, i) => (
+                    <Badge
+                      key={i}
+                      colorScheme="gray"
+                      variant="subtle"
+                      fontSize="0.8rem"
+                      p="2"
+                      borderRadius="full"
+                      
+                      textTransform="uppercase"
+                      letterSpacing="wider"
+                    >
+                      <HStack>
+                        <Box> {summary.vibe.emojis[i]}</Box>
+                        <Box>{tag}</Box>
+                      </HStack>
+                    </Badge>
+                  ))}
+                </HStack>
+              </Box>
               <SimpleGrid
                 mt="5"
                 columns={{ base: 1, md: 1, lg: 2 }}
@@ -305,7 +317,7 @@ const BookSummarizer = ({ details }) => {
                       <StatBox
                         icon={FaClock}
                         label="Estimated Read Time"
-                        value={`${summary?.estimate_read.time_to_finish} hours` }
+                        value={`${summary?.estimate_read.time_to_finish} hours`}
                         fontSize={"md"}
                       />
                       <StatBox

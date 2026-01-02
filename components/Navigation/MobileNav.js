@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-import Link from "next/link";
+import NextLink from "next/link";
 import { BsBook, BsPlusCircle } from "react-icons/bs";
 import {
   FiBell,
@@ -108,9 +108,7 @@ const MobileNav = ({
                       spacing="1px"
                       ml="2"
                     >
-                      <Text fontSize="sm">
-                        {userInfo?.username}
-                      </Text>
+                      <Text fontSize="sm">{userInfo?.username}</Text>
                       <Text fontSize="xs" color="gray.600">
                         {userInfo?.role}
                       </Text>
@@ -126,11 +124,12 @@ const MobileNav = ({
               {currentUser ? (
                 <MenuList>
                   <MenuItem onClick={onOpen}>Account</MenuItem>
-                  <Link href={"/favourites"} passHref>
-                    <MenuItem>Favourites</MenuItem>
-                  </Link>
 
-                  <MenuItem>Bookshelves</MenuItem>
+                  <MenuItem as={NextLink} href={"/favourites"}>
+                    Favourites
+                  </MenuItem>
+
+                  <MenuItem as={NextLink} href={"/bookshelves/all"}>Bookshelves</MenuItem>
                   <MenuDivider />
                   <MenuItem
                     onClick={() => {
@@ -142,13 +141,13 @@ const MobileNav = ({
                 </MenuList>
               ) : (
                 <MenuList>
-                  <Link href="/account/login" passHref>
-                    <MenuItem>Sign In</MenuItem>
-                  </Link>
+                  <MenuItem as={NextLink} href="/account/login">
+                    Sign In
+                  </MenuItem>
 
-                  <Link href="/account/register" passHref>
-                    <MenuItem>Create Account</MenuItem>
-                  </Link>
+                  <MenuItem as={NextLink} href="/account/register">
+                    Create Account
+                  </MenuItem>
                 </MenuList>
               )}
             </Menu>

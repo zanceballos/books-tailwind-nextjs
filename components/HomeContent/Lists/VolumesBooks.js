@@ -1,32 +1,54 @@
-import { Text, SimpleGrid, Box } from "@chakra-ui/react";
+import {
+  Text,
+  SimpleGrid,
+  Box,
+  HStack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import BookCardReleases from "../Cards/BookCardReleases";
 
 const VolumesBooks = ({ header, volumes }) => {
   return (
     <div>
       <Text
-        fontSize="4xl"
+        fontSize={{sm:"2xl", lg:"4xl"}}
         fontWeight="bold"
-        style={{ paddingTop: "4rem", paddingBottom: "1.5rem" }}
+        style={{ paddingTop: "2rem", paddingBottom: "1rem" }}
       >
         {header}
       </Text>
       {volumes != null && (
-        <SimpleGrid columns={{ base: 1, md: 3, "2xl": 6 }} w="full" spacing="40px">
-          {volumes
-            .map((book) => (
+        <Box
+          w={"100%"} 
+        >
+          <HStack
+            spacing={2}
+            overflowX="auto"
+            
+            css={{
+              "&::-webkit-scrollbar": { height: "4px" },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#00000014",
+                borderRadius: "24px",
+              },
+            }}
+            my="2"
+          >
+            {volumes.map((book) => (
               <Box
                 key={book.id}
-                mx={"auto"}
-                w="full"
+                mx={"2"}
+                w={{lg:"300px", sm:"200px"}}
+                flexShrink={0}
                 display={"flex"}
                 justifyContent={"center"}
+                
               >
                 <BookCardReleases details={book} />
               </Box>
-            ))
-            .slice(0, 6)}
-        </SimpleGrid>
+            ))}
+          </HStack>
+        </Box>
       )}
     </div>
   );
