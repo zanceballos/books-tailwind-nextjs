@@ -8,10 +8,11 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import NextLink from "next/link"; // Rename import to avoid conflict with Chakra Link
+import NextLink from "next/link"; 
 
 const BookCardCategories = ({ details }) => {
-  // Destructure for cleaner access
+
+  
   const { volumeInfo, id } = details;
   const imageLink = volumeInfo.imageLinks?.thumbnail;
   const category = volumeInfo.categories?.[0];
@@ -35,7 +36,7 @@ const BookCardCategories = ({ details }) => {
         <Image
           src={imageLink}
           fallbackSrc="https://www.biotrop.org/images/default-book.png"
-          alt={volumeInfo.title || "Book Cover"}
+          alt={volumeInfo?.title || "Book Cover"}
           maxH="220px"
           objectFit="contain"
           rounded="lg"
@@ -59,7 +60,7 @@ const BookCardCategories = ({ details }) => {
           noOfLines={1}
           px={2}
         >
-          {volumeInfo.title}
+          {volumeInfo?.title}
         </Text>
 
         <Text fontSize="sm" color="gray.600" noOfLines={1}>

@@ -24,7 +24,6 @@ const VolumesBooks = ({ header, volumes }) => {
           <HStack
             spacing={2}
             overflowX="auto"
-            
             css={{
               "&::-webkit-scrollbar": { height: "4px" },
               "&::-webkit-scrollbar-thumb": {
@@ -39,10 +38,9 @@ const VolumesBooks = ({ header, volumes }) => {
                 key={book.id}
                 mx={"2"}
                 w={{lg:"300px", sm:"200px"}}
-                flexShrink={0}
                 display={"flex"}
                 justifyContent={"center"}
-                
+                mb="5"
               >
                 <BookCardReleases details={book} />
               </Box>

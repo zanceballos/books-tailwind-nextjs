@@ -31,14 +31,14 @@ const BookCardReleases = ({ details }) => {
       <Box
         role={"group"}
         p={6}
-        width={"330px"}
+        width={"300px"}
         height="500px"
-        w={"full"}
         bg={useColorModeValue("white", "gray.800")}
         boxShadow={"lg"}
         rounded={"lg"}
         pos={"relative"}
         zIndex={1}
+        border={"1px solid whiteAlpha.900"}
       >
         <Box
           rounded={"lg"}
@@ -90,7 +90,7 @@ const BookCardReleases = ({ details }) => {
             textTransform={"uppercase"}
             noOfLines={1}
           >
-            {details.volumeInfo.publisher}
+            {details?.volumeInfo?.publisher}
           </Text>
 
           <Heading
