@@ -59,10 +59,10 @@ const CategoryVolumes = ({ header, pageid, query }) => {
                   <Box
                     key={book.id}
                     mx={"2"}
-
                     flexShrink={0}
                     display={"flex"}
                     justifyContent={"center"}
+                    mb="5"
                   >
                     <BookCardCategories key={book.id} details={book} />
                   </Box>
