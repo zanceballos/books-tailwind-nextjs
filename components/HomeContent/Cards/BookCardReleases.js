@@ -100,7 +100,7 @@ const BookCardReleases = ({ details }) => {
             fontWeight={800}
             noOfLines={{ sm: "2" }}
           >
-            {details.volumeInfo.title}
+            {details.volumeInfo?.title}
           </Heading>
 
           <Stack direction={"row"} align={"center"}>
@@ -113,7 +113,7 @@ const BookCardReleases = ({ details }) => {
                 sm: "0.8rem",
               }}
             >
-              {details.volumeInfo.authors[0]}
+              {details.volumeInfo.authors?.[0]}
             </Text>
           </Stack>
 
