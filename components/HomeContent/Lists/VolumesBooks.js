@@ -37,7 +37,7 @@ const VolumesBooks = ({ header, volumes }) => {
               <Box
                 key={book.id}
                 mx={"2"}
-                w={{lg:"300px", sm:"200px"}}
+                w={{lg:"300px", sm:"250px"}}
                 display={"flex"}
                 justifyContent={"center"}
                 mb="5"

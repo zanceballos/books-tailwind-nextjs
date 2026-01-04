@@ -7,14 +7,14 @@ import CategoryVolumes from "../components/HomeContent/Lists/CategoryVolumes";
 import FavouritesPromote from "../components/HomeContent/Extras/FavouritesPromote";
 import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 import { fetchHeroImages } from "../service/bookService";
-
+import GroqSearch from "../components/HomeContent/LLM_Components/GroqSearch";
 export default function Home({ heroImages }) {
   return (
     <div>
       <ColumnsCards images={heroImages} />
+      <GroqSearch />
       <FavouritesPromote />
       <ExplorePromote />
-
       <TopCards />
       <VolumesLists
         query="subject:fantasy"
