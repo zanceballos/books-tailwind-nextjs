@@ -31,7 +31,7 @@ const BookCardReleases = ({ details }) => {
       <Box
         role={"group"}
         p={6}
-        width={"300px"}
+        w={{lg:"300px", sm:"250px"}}
         height="500px"
         bg={useColorModeValue("white", "gray.800")}
         boxShadow={"lg"}

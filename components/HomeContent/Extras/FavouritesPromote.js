@@ -16,8 +16,9 @@ const FavouritesPromote = () => {
     <>
       <Box
         mb="2"
-        mt={{sm:"2", md: 5}}
+        mt={{ sm: "2", md: 5 }}
         bg="#abae93ff"
+        bgGradient="linear(to-r,#abae93ff , #b9bba8ff)"
         p={{ base: 8, md: 12 }}
         borderRadius="lg"
         color="white"
@@ -25,10 +26,13 @@ const FavouritesPromote = () => {
         width={"100%"}
         lineHeight="0.9"
         userSelect="none"
-       
+        _hover={{
+          textDecoration: "none",
+          transform: "scale(1.02)",
+          transition: "0.2s",
+        }}
       >
-        <HStack spacing={4}  as={NextLink}
-        href={"/favourites"}>
+        <HStack spacing={4} as={NextLink} href={"/favourites"}>
           <Box>
             <Text
               fontSize={{
