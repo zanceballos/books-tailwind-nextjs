@@ -44,7 +44,7 @@ const Sidebar = ({ children }) => {
     <>
       {" "}
       {loading === false ? (
-        <Box minH="100vh" className="parent-bar">
+        <Box minH="100vh" className="parent-bar" overflowX="hidden">
           <SidebarContent
             onClose={() => onClose}
             display={{ base: "none", md: "block" }}
@@ -71,7 +71,7 @@ const Sidebar = ({ children }) => {
             currentUser={currentUser}
             logout={logout}
           />
-          <Box ml={{ base: 0, md: 72 }} p="4">
+          <Box ml={{ base: 0, md: 72 }} p="4" maxW="100vw">
             {children}
           </Box>
         </Box>

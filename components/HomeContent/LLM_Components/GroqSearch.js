@@ -182,10 +182,11 @@ const GroqSearch = () => {
               </Button>
             </Box>
           </Flex>
-          <Box w={"100%"}>
+          <Box w={"100%"} mt="10">
             <HStack
               spacing={3}
-              justify="center"
+              justify="start"
+              
               mt={4}
               overflowX="auto"
               pb="4"
@@ -208,10 +209,12 @@ const GroqSearch = () => {
                   colorScheme={tag.color}
                   borderRadius="full"
                   cursor="pointer"
+                  flexShrink={0}
+                  whiteSpace="nowrap"
                   _hover={{ transform: "scale(1.05)", opacity: 0.9 }} // Little pop animation
                   onClick={() => handleSearchByBadge(tag)}
                 >
-                  {tag.label}
+                 {tag.Emoji} {tag.label}
                 </Badge>
               ))}
             </HStack>
