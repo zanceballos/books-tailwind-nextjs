@@ -87,6 +87,8 @@ const GroqSearch = () => {
         borderColor="whiteAlpha.400"
         borderRadius="md"
         bgGradient="linear(to-br, purple.600, purple.800, blue.800)"
+        overflow="hidden"
+        position="relative"
       >
         <Box
           position="absolute"
