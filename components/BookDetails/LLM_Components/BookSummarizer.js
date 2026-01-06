@@ -317,7 +317,7 @@ const BookSummarizer = ({ details }) => {
                       <StatBox
                         icon={FaClock}
                         label="Estimated Read Time"
-                        value={`${summary?.estimate_read.time_to_finish} hours`}
+                        value={`${summary?.estimate_read?.time_to_finish} hours`}
                         fontSize={"md"}
                       />
                       <StatBox

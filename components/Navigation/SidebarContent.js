@@ -16,7 +16,7 @@ import NavItem from "./NavItem";
 const LinkItems = [
   { name: "Home", icon: FiHome, route: "/" },
   { name: "Trending", icon: FiTrendingUp, route: "/#new-releases" },
-  { name: "Explore", icon: FiCompass, route: "/search/books/trending" },
+  { name: "Explore", icon: FiCompass, route: "/jawa-search/trending-books-to-read" },
   { name: "About", icon: FiInfo, route: "/About" },
 ];
 
