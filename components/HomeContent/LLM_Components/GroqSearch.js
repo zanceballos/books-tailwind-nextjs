@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -13,18 +13,71 @@ import {
   MenuOptionGroup,
   MenuItemOption,
   Icon,
+  HStack,
+  Badge,
 } from "@chakra-ui/react";
+import { FaRobot, FaMeteor, FaCode, FaFire } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { SiGooglegemini } from "react-icons/si";
+import { useRouter } from "next/router";
 const GroqSearch = () => {
-  const [categoryLabel, setCategoryLabel] = useState("Category");
+  const router = useRouter();
+  const [searchInput, setSearchInput] = useState("");
+  const [categorySearch, setCategorySearch] = useState([]);
 
-  const handleCategory = (e) => {
-    //set the state
-    setCategoryLabel(e);
-    //set the search url
-    setCategorySearch(`insubject:${e}`);
+  const handleSearch = (e) => {
+    router.push(`/jawa-search/${searchInput}`);
+    //redirect to search page
   };
+
+  const handleSearchByBadge = (tag) => {
+    //redirect to search page
+    router.push(`/jawa-search/subject:${tag.label}`);
+  };
+
+  //Search on load
+
+  useEffect(() => {
+    const handleRecommendedSearch = async () => {
+      const CACHE_KEY = "home_GROQ_TagRecommendations";
+      const CACHE_DURATION = 1000 * 60 * 60; // 1 Hour (in milliseconds)
+
+      const cachedData = localStorage.getItem(CACHE_KEY);
+
+      if (cachedData) {
+        const { data, timestamp } = JSON.parse(cachedData);
+        const isFresh = Date.now() - timestamp < CACHE_DURATION;
+
+        if (isFresh) {
+          console.log("Using Cached Recommendations");
+          setCategorySearch(data); // Load instant data
+          return;
+        }
+      }
+      try {
+        console.log("Fetching from GROQ API...");
+        const response = await fetch("/api/GroqSearch/SearchRecommendation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const result = await response.json();
+        const keywords = result.trending_keywords;
+
+        localStorage.setItem(
+          CACHE_KEY,
+          JSON.stringify({ data: keywords, timestamp: Date.now() })
+        );
+
+        setCategorySearch(keywords);
+      } catch (error) {
+        console.error("Error fetching recommended search:", error);
+      }
+    };
+    handleRecommendedSearch();
+  }, []);
 
   return (
     <>
@@ -103,6 +156,9 @@ const GroqSearch = () => {
                 bg="transparent"
                 color="black"
                 fontWeight={"bold"}
+                onChange={(e) => {
+                  setSearchInput(e.target.value);
+                }}
                 fontSize={{ base: "0.8rem", md: "1rem", lg: "1.2rem" }}
               />
             </Box>
@@ -113,35 +169,7 @@ const GroqSearch = () => {
               mx={2}
               display={{ base: "none", md: "block" }}
             />
-            <Box mx="5px" display={{ lg: "flex", md: "none", sm: "none" }}>
-              <Menu width={"100%"}>
-                <MenuButton
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                  rounded={"full"}
-                >
-                  {categoryLabel}
-                </MenuButton>
-                <MenuList>
-                  <MenuOptionGroup
-                    onChange={(e) => {
-                      handleCategory(e);
-                    }}
-                    textColor={"black"}
-                    fontWeight={"bold"}
-                  >
-                    <MenuItemOption value="fantasy">Fantasy</MenuItemOption>
-                    <MenuItemOption value="thriller">Thriller</MenuItemOption>
-                    <MenuItemOption value="romance">Romance</MenuItemOption>
-                    <MenuItemOption value="sci-fi">
-                      Science Fiction
-                    </MenuItemOption>
-                    <MenuItemOption value="fiction">Fiction</MenuItemOption>
-                    <MenuItemOption value="adventure">Adventure</MenuItemOption>
-                  </MenuOptionGroup>
-                </MenuList>
-              </Menu>
-            </Box>
+
             <Box>
               <Button
                 color={"white"}
@@ -154,7 +182,40 @@ const GroqSearch = () => {
               </Button>
             </Box>
           </Flex>
-         
+          <Box w={"100%"}>
+            <HStack
+              spacing={3}
+              justify="center"
+              mt={4}
+              overflowX="auto"
+              pb="4"
+              css={{
+                "&::-webkit-scrollbar": { height: "4px" },
+                "&::-webkit-scrollbar-thumb": {
+                  background: "#00000014",
+                  borderRadius: "24px",
+                },
+              }}
+              my="2"
+            >
+              {categorySearch?.map((tag) => (
+                <Badge
+                  key={tag}
+                  size="lg"
+                  variant="subtle"
+                  fontSize="0.8rem"
+                  p={2}
+                  colorScheme={tag.color}
+                  borderRadius="full"
+                  cursor="pointer"
+                  _hover={{ transform: "scale(1.05)", opacity: 0.9 }} // Little pop animation
+                  onClick={() => handleSearchByBadge(tag)}
+                >
+                  {tag.label}
+                </Badge>
+              ))}
+            </HStack>
+          </Box>
         </Box>
       </Card>
     </>
