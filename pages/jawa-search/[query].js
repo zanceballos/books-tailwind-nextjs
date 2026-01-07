@@ -9,7 +9,7 @@ const GroqRecommendation = ({ results }) => {
   return (
     <>
       <GroqSearch/>
-    {results.books.length === 0 ? loader() : null}
+    {results.books?.length === 0 ? loader() : null}
       <ExploreCards results={results.books} />
       <ExploreLists results={results.books} />
     </>

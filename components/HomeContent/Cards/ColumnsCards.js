@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, GridItem, Text } from "@chakra-ui/react";
-import Link from "next/link";
+import NextLink from "next/link";
 
 const ColumnsCards = ({ images }) => {
   
@@ -32,7 +32,7 @@ const ColumnsCards = ({ images }) => {
     >
       {/* Card 1: New Releases */}
       <GridItem
-        as={Link} 
+        as={NextLink} 
         href="#new-releases"
         {...cardStyles}
         rowSpan={{ base: 2, lg: 2, md: 2, sm: 4 }}
@@ -63,8 +63,8 @@ const ColumnsCards = ({ images }) => {
 
       {/* Card 2: Top Books */}
       <GridItem
-        as={Link}
-        href="#top-books"
+        as={NextLink}
+        href="/jawa-search/top-books"
         {...cardStyles}
         rowSpan={{ base: 1, lg: 1, md: 1, sm: 3 }}
         colSpan={{ base: 3, md: 3, sm: 6 }}
@@ -94,8 +94,8 @@ const ColumnsCards = ({ images }) => {
 
       {/* Card 3: Top Authors */}
       <GridItem
-        as={Link}
-        href="#top-authors"
+        as={NextLink}
+        href="/jawa-search/top-authors"
         {...cardStyles}
         rowSpan={{ base: 1, lg: 1, md: 1, sm: 3 }}
         colSpan={{ base: 3, md: 3, sm: 6 }}
@@ -126,8 +126,8 @@ const ColumnsCards = ({ images }) => {
 
       {/* Card 4: Best Sellers */}
       <GridItem
-        as={Link}
-        href="#best-sellers"
+          as={NextLink}
+        href="/jawa-search/best-sellers"
         {...cardStyles}
         rowSpan={{ base: 1, lg: 1, md: 1, sm: 12 }}
         colSpan={{ base: 6, md: 6, sm: 12 }}
