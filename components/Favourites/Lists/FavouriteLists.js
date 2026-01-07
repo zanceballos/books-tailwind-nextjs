@@ -116,7 +116,7 @@ const FavouriteLists = () => {
             <>
               <Box
                 rounded={"lg"}
-                p={"6"}
+                
                 width="100%"
                 backgroundRepeat="no-repeat"
                 backgroundPosition={"center"}

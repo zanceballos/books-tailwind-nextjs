@@ -60,9 +60,10 @@ export default async function handler(req, res) {
     );
 
     const Bookdata = await googleRes.json();
-    console.log("Books found:", Bookdata.items ? Bookdata.items.length : 0);
 
-    if (Bookdata.items.length < 10) {
+    const primaryResults = Bookdata.items || [];
+
+    if (primaryResults.length < 10) {
       //Fill the results with a broader search
       const broaderRes = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
@@ -70,12 +71,10 @@ export default async function handler(req, res) {
         )}&maxResults=20&orderBy=relevance&key=${apiKey}`
       );
       const broaderData = await broaderRes.json();
-      console.log(
-        "Broader search books found:",
-        broaderData.items ? broaderData.items.length : 0
-      );
 
-      let combinedBooks = [...Bookdata.items, ...broaderData.items];
+      const broaderResults = broaderData.items || [];
+
+      let combinedBooks = [...primaryResults, ...broaderResults];
 
       const uniqueBooks = [];
       const seenIds = new Set();
