@@ -8,7 +8,15 @@ export default async function handler(req, res){
     
 
     try {
-        const prompt = `provide 8 trending 4 to 5 words description for books to guide user of what prompt they can use, return as an array of strings. Ensure the keywords are relevant to books and are diverse in themes and genres. Make sure the keywords are engaging and likely to attract readers interested in this category and query. Return only the array called "trending_keywords" each item holds: "label", "Emoji" and "color" of keywords without any additional text or formatting. Color should be one of these options: "whiteAlpha" | "blackAlpha" | "gray" | "red" | "orange" | "yellow" | "green" | "teal" | "blue" | "cyan" | "pink". No Purple or any close color allowed`;
+        const prompt = `Generate 8 trending book search queries (4-5 words each).
+            
+            Return a valid JSON object with a single key: "trending_keywords".
+            "trending_keywords" must be an array of objects.
+            
+            Each object must strictly have these 3 fields:
+            1. "label": The search query string.
+            2. "emoji": A single relevant emoji character.
+            3. "color": One of the following values: "whiteAlpha", "blackAlpha", "gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "pink". (Do not use purple).`;
         const completion = await groq.chat.completions.create({
             messages: [
                 {
