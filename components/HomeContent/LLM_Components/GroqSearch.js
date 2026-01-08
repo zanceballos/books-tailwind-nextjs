@@ -216,7 +216,7 @@ const GroqSearch = () => {
                   _hover={{ transform: "scale(1.05)", opacity: 0.9 }} // Little pop animation
                   onClick={() => handleSearchByBadge(tag)}
                 >
-                 {tag.Emoji} {tag.label}
+                 {tag.emoji} {tag.label}
                 </Badge>
               ))}
             </HStack>

@@ -63,6 +63,7 @@ export default async function handler(req, res) {
 
     const primaryResults = Bookdata.items || [];
 
+    // if not enough results, do a broader search
     if (primaryResults.length < 10) {
       //Fill the results with a broader search
       const broaderRes = await fetch(
@@ -70,8 +71,8 @@ export default async function handler(req, res) {
           searchParams.q
         )}&maxResults=20&orderBy=relevance&key=${apiKey}`
       );
+      
       const broaderData = await broaderRes.json();
-
       const broaderResults = broaderData.items || [];
 
       let combinedBooks = [...primaryResults, ...broaderResults];
