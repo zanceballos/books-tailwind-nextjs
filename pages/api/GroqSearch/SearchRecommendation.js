@@ -8,7 +8,7 @@ export default async function handler(req, res){
     
 
     try {
-        const prompt = `Generate 8 trending book search queries (4-5 words each).
+        const prompt = `Generate 8 trending book search queries (4-5 words each) which will be used for Google Books API query API url for search.
             
             Return a valid JSON object with a single key: "trending_keywords".
             "trending_keywords" must be an array of objects.
@@ -16,7 +16,20 @@ export default async function handler(req, res){
             Each object must strictly have these 3 fields:
             1. "label": The search query string.
             2. "emoji": A single relevant emoji character.
-            3. "color": One of the following values: "whiteAlpha", "blackAlpha", "gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "pink". (Do not use purple).`;
+            3. "color": One of the following values: "whiteAlpha", "blackAlpha", "gray", "red", "orange", "yellow", "green", "teal", "blue", "cyan", "pink". (Do not use purple).
+            
+            The search query should be relevant with no "free", "latest", "best", "popular", "top", "now", "books", or "about".
+            Example output:
+            {
+                "trending_keywords": [
+                    {
+                        "label": "science fiction space opera", 
+                        "emoji": "🚀",
+                        "color": "blue"
+                    }, ...
+            
+             }
+                    `;
         const completion = await groq.chat.completions.create({
             messages: [
                 {

@@ -505,7 +505,7 @@ const Bookshelve = () => {
                       fallbackSrc="https://via.placeholder.com/40"
                     />
                     <Box>
-                      <Text fontWeight="bold" color={"white"}>
+                      <Text fontWeight="bold" color={"gray.800"}>
                         {book.volumeInfo.title}
                       </Text>
                       <Text fontSize="sm" color="gray.500">
