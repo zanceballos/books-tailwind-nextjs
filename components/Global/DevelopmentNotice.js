@@ -12,8 +12,10 @@ import {
   useDisclosure,
   Icon,
   VStack,
+  HStack,
 } from "@chakra-ui/react";
-import { FaHardHat } from "react-icons/fa";
+import NextLink from "next/link";
+import { FaGithub, FaHardHat } from "react-icons/fa";
 import { useRouter } from "next/router";
 const DevelopmentNotice = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -76,8 +78,16 @@ const DevelopmentNotice = () => {
               This website is currently under active development. Some features
               may be unstable or change without notice.
             </Text>
+            <HStack justifyContent="center" mt={4} spacing={2}>
+              <Icon as={FaGithub} w={4} h={4} color="purple.400"/>
+              
+              <Text textDecoration={"underline"} fontWeight="bold" fontSize="md" color="gray.900" as={NextLink} target="blank" href={"https://github.com/zanceballos/"}>
+                @zanceballos
+              </Text>
+            </HStack>
+
             <Text mt={4} fontSize="sm" fontWeight="medium">
-              Want to see the technical details or roadmap?
+              Want to see the technical details of the website?
             </Text>
           </ModalBody>
 

@@ -1,23 +1,26 @@
-import React from 'react'
+import React from "react";
 import Head from "next/head";
 const Meta = ({ title, keywords, description }) => {
   return (
     <Head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="keywords" content={keywords} />
-    <meta name="description" content={description} />
-    <meta charSet="utf-8" />
-    <link rel="icon" href="/favicon.svg" />
-    <title>{title}</title>
-  </Head>
-  )
-}
-
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="keywords" content={keywords} />
+      <meta name="description" content={description} />
+      <meta charSet="utf-8" />
+      <link rel="icon" href="/favicon.svg" />
+      <meta
+        name="google-site-verification"
+        content="YJWPWbe0Vn_tLPtQw9NNBoxuO9VxFjaU9FIJWBMByyM"
+      />
+      <title>{title}</title>
+    </Head>
+  );
+};
 
 Meta.defaultProps = {
-    title: 'Bookify - Next JS',
-    keywords: 'web development, Gooble Books',
-    description: 'Get the latest news in web dev',
-  }
+  title: "Bookify - Next JS",
+  keywords: "web development, Gooble Books",
+  description: "Get the latest news in web dev",
+};
 
-export default Meta
+export default Meta;
