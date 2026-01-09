@@ -7,6 +7,7 @@ import { extendTheme } from "@chakra-ui/react";
 import Overlay from "../components/Global/Overlay";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import DevelopmentNotice from "../components/Global/DevelopmentNotice";
 //break points to fit small device
 const breakpoints = {
   sm: "10em",
@@ -44,7 +45,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       {loading && <Overlay />}
+
       <AuthProvider>
+        <DevelopmentNotice />
         <Layout>
           <Component {...pageProps} />
         </Layout>

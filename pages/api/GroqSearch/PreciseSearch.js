@@ -25,9 +25,11 @@ export default async function handler(req, res) {
 
           JSON Output Rules:
           1. "q": The cleaned keywords. (e.g., if user says user: "books like harry potter" -> q: "magic wizard school"), if user says things that exists such as "Star Wars", "Harry Potter", then keep it as is.). So if user mentions "books like [specific book]" or something similar such as "recommend me", infer the core themes and return those as keywords. Else, just return the cleaned keywords.
-          2. "subject": The genre (optional).
+          2. "subject": The genre is only ONE word, no more, no less: Art, Biography & Autobiography, Children's Fiction, Computers, Cooking, Drama, Economics, Education, Fiction, History, Mathematics, Philosophy, Poetry, Psychology, Religion, Science, Travel˝
           3. "orderBy": ONLY use "newest" if the user EXPLICITLY asks for "new", "latest", "recent", or "2024/2025/2026". Otherwise, use "relevance".
           4. "exactMode": Boolean. Set to true if user names a specific book title or author.
+
+
 
           Examples:
           Input: "scary books about clowns"
@@ -61,7 +63,7 @@ export default async function handler(req, res) {
     });
 
     const params = JSON.parse(completion.choices[0].message.content);
-
+    console.log("Groq suggested params:", params);
     const apiKey = process.env.GOOGLE_BOOKS_API_KEY;
 
     //begin constructing Google Books API URL
@@ -88,7 +90,7 @@ export default async function handler(req, res) {
     const data = await googleRes.json();
     const books = data.items || [];
 
-    if (books.length === 0 && params.orderBy === "newest") {
+    if (books.length === 0) {
       console.log(
         "Strict 'newest' sort returned 0. Retrying with 'relevance'..."
       );
@@ -96,9 +98,32 @@ export default async function handler(req, res) {
         "&orderBy=newest",
         "&orderBy=relevance"
       );
+
+      console.log("Fallback Google Books API URL:", fallbackUrl);
       const fallbackRes = await fetch(fallbackUrl);
       const fallbackData = await fallbackRes.json();
 
+      // Last Resort
+      // If relevance returns no results, return try again with subject search only with newest first
+      // 1. If still 0, try subject search by subject
+      if ((fallbackData.items || []).length === 0 || fallbackData?.items?.length < 20 && params.subject) {
+        console.log(
+          "Strict 'newest' sort returned 0. Retrying with 'subject only'..."
+        );
+        const subjectOnlyUrl = `https://www.googleapis.com/books/v1/volumes?key=${apiKey}&q=subject:${encodeURIComponent(
+          params.subject
+        )}&orderBy=newest&maxResults=20`;
+
+        console.log("Subject Only Google Books API URL:", subjectOnlyUrl);
+        const subjectOnlyRes = await fetch(subjectOnlyUrl);
+        const subjectOnlyData = await subjectOnlyRes.json();
+
+        res.status(200).json({
+          interpretation: params.q,
+          books: subjectOnlyData.items || [],
+        });
+        return;
+      }
       res.status(200).json({
         interpretation: params.q,
         books: fallbackData.items || [],
