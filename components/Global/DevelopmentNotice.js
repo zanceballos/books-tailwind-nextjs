@@ -15,7 +15,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { FaGithub, FaHardHat } from "react-icons/fa";
+import { FaBuilding, FaGithub, FaHammer, FaHardHat } from "react-icons/fa";
 import { useRouter } from "next/router";
 const DevelopmentNotice = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -63,7 +63,7 @@ const DevelopmentNotice = () => {
         >
           <ModalHeader textAlign="center" pt={6}>
             <VStack spacing={3}>
-              <Icon as={FaHardHat} w={10} h={10} color="orange.400" />
+              <Icon as={FaHammer} w={10} h={10} color="orange.400" />
               <Text fontSize="2xl" fontWeight="bold" color="purple.600">
                 Work in Progress
               </Text>
