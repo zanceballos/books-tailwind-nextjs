@@ -18,9 +18,9 @@ const Meta = ({ title, keywords, description }) => {
 };
 
 Meta.defaultProps = {
-  title: "Bookify - Next JS",
-  keywords: "web development, Gooble Books",
-  description: "Get the latest news in web dev",
+  title: "Bookify Owl - Next JS",
+  keywords: "Web development, Google Books, Books API, Next JS",
+  description: "Read and explore books powered by Google Books API",
 };
 
 export default Meta;
