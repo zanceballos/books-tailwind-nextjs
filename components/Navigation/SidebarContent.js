@@ -19,18 +19,19 @@ import {
   FiCompass,
   FiHome,
   FiInfo,
+  FiSearch,
   FiStar,
   FiTrendingUp,
 } from "react-icons/fi";
 import { IoIosLogIn } from "react-icons/io";
 import NavItem from "./NavItem";
-import { FaBook, FaLayerGroup } from "react-icons/fa";
+import { FaBook, FaLayerGroup, FaRocket, FaSearchengin } from "react-icons/fa";
 const LinkItems = [
   { name: "Home", icon: FiHome, route: "/" },
-  { name: "Trending", icon: FiTrendingUp, route: "/#new-releases" },
+  { name: "Explore", icon: FiCompass, route: "/explore" },
   {
-    name: "Explore",
-    icon: FiCompass,
+    name: "Groq AI",
+    icon: FaRocket,
     route: "/jawa-search/trending-books-to-read",
   },
   { name: "About", icon: FiInfo, route: "/About" },

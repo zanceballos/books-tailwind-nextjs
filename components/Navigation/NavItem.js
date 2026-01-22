@@ -12,6 +12,7 @@ const NavItem = ({ icon, children, onClose, route, ...rest }) => {
         style={{ textDecoration: "none" }}
         _focus={{ boxShadow: "none" }}
         className="nav-items-bar"
+        _hover={{ color: "purple.900", textDecoration: "none" }}
         passHref
       >
         <Flex
@@ -23,7 +24,7 @@ const NavItem = ({ icon, children, onClose, route, ...rest }) => {
           onClick={onClose}
           cursor="pointer"
           _hover={{
-            bg: "cyan.400",
+            bg: "purple.900",
             color: "white",
           }}
           {...rest}
