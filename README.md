@@ -32,5 +32,5 @@ To run this project on your local machine, follow these steps:
 
 ### 1. Clone the repository
 ```bash
-git clone [https://github.com/YOUR_USERNAME/bookify-owl.git](https://github.com/YOUR_USERNAME/bookify-owl.git)
+git clone [https://github.com/zanceballos/bookify-owl.git](https://github.com/zanceballos/bookify-owl.git)
 cd bookify-owl
